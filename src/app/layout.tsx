@@ -3,11 +3,11 @@ import '../styles/globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://usestudiocora.com'),
-  title: 'Studio Cora — Coming Soon',
+  title: 'Studio Cora',
   description:
     'Something extraordinary is coming. A new home for Studio Cora is on the way.',
   openGraph: {
-    title: 'Studio Cora — Coming Soon',
+    title: 'Studio Cora',
     description:
       'Something extraordinary is coming. A new home for Studio Cora is on the way.',
     url: 'https://usestudiocora.com',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Studio Cora — Coming Soon',
+    title: 'Studio Cora',
     description: 'Something extraordinary is coming.',
   },
 }
