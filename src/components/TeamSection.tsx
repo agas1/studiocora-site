@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 const ease = [0.16, 1, 0.3, 1] as const
@@ -11,7 +12,7 @@ type Member = {
   lastName: string
   role: string
   initials: string
-  // photoUrl?: string // swap in when photos arrive
+  photoUrl?: string
 }
 
 const team: Member[] = [
@@ -21,6 +22,7 @@ const team: Member[] = [
     lastName: 'Maximo',
     role: 'Creative Director · Design & UX',
     initials: 'AM',
+    photoUrl: '/amanda.png',
   },
   {
     label: 'Co-founder',
@@ -28,6 +30,7 @@ const team: Member[] = [
     lastName: 'Selbach',
     role: 'Engineering · Development & Infrastructure',
     initials: 'AS',
+    photoUrl: '/agatha.png',
   },
 ]
 
@@ -67,16 +70,26 @@ export function TeamSection() {
             transition={{ duration: 0.7, delay: i * 0.08, ease }}
             className="group grid grid-cols-5 gap-x-5 gap-y-4 sm:gap-x-6"
           >
-            {/* Avatar — initials placeholder until photos arrive */}
+            {/* Avatar — photo if available, otherwise initials placeholder */}
             <div className="col-span-2 sm:col-span-2">
               <div className="relative aspect-square w-full overflow-hidden bg-[#D9D9D9] transition-transform duration-500 ease-out group-hover:-translate-y-1">
-                <span
-                  aria-hidden
-                  style={{ fontFamily: 'var(--font-display)' }}
-                  className="absolute inset-0 flex items-center justify-center text-[18vw] text-[#0A0A0A]/70 sm:text-[6vw] md:text-[4vw] lg:text-[5rem]"
-                >
-                  {m.initials}
-                </span>
+                {m.photoUrl ? (
+                  <Image
+                    src={m.photoUrl}
+                    alt={`${m.firstName} ${m.lastName}`}
+                    fill
+                    sizes="(max-width: 768px) 40vw, 20vw"
+                    className="object-cover grayscale"
+                  />
+                ) : (
+                  <span
+                    aria-hidden
+                    style={{ fontFamily: 'var(--font-display)' }}
+                    className="absolute inset-0 flex items-center justify-center text-[18vw] text-[#0A0A0A]/70 sm:text-[6vw] md:text-[4vw] lg:text-[5rem]"
+                  >
+                    {m.initials}
+                  </span>
+                )}
               </div>
             </div>
 
