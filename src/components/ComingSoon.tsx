@@ -96,12 +96,14 @@ export function ComingSoon() {
                 />
               </svg>
             </a>
-            <span
-              aria-disabled="true"
-              className="inline-flex cursor-not-allowed items-center gap-3 rounded-full border border-[#B6B5FF]/15 px-7 py-3.5 text-sm font-medium text-[#B6B5FF]/40"
+            <a
+              href="https://www.linkedin.com/company/studiocora"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-3 rounded-full border border-[#B6B5FF]/25 px-7 py-3.5 text-sm font-medium text-[#F7F7FF] transition-colors duration-300 hover:bg-[#F7F7FF]/[0.06]"
             >
-              LinkedIn — soon
-            </span>
+              Follow on LinkedIn
+            </a>
           </motion.div>
         </div>
 
