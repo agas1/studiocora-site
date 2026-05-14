@@ -45,18 +45,18 @@ export function ComingSoon() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2, ease }}
             style={{ fontFamily: 'var(--font-display)' }}
-            className="text-[18vw] font-black leading-[0.85] tracking-[-0.04em] md:text-[14vw] lg:text-[12rem] xl:text-[14rem]"
+            className="text-[12vw] font-black leading-[0.9] tracking-[-0.04em] sm:text-[13vw] md:text-[14vw] md:leading-[0.85] lg:text-[12rem] xl:text-[14rem]"
           >
-            <span className="block">SOMETHING</span>
+            <span className="block whitespace-nowrap">SOMETHING</span>
             <motion.span
-              className="block bg-[linear-gradient(90deg,#7371F2_0%,#B6B5FF_25%,#7371F2_50%,#4140E4_75%,#7371F2_100%)] bg-clip-text text-transparent"
+              className="block whitespace-nowrap bg-[linear-gradient(90deg,#7371F2_0%,#B6B5FF_25%,#7371F2_50%,#4140E4_75%,#7371F2_100%)] bg-clip-text text-transparent"
               style={{ backgroundSize: '200% 100%' }}
               animate={{ backgroundPosition: ['0% 50%', '200% 50%'] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
             >
               EXTRAORDINARY
             </motion.span>
-            <span className="block">IS COMING.</span>
+            <span className="block whitespace-nowrap">IS COMING.</span>
           </motion.h1>
 
           <motion.p
