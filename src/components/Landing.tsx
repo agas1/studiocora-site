@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Logo } from './Logo'
 import { ContactSection } from './ContactSection'
+import { TeamSection } from './TeamSection'
 
 const ease = [0.16, 1, 0.3, 1] as const
 const ACCENT = '#3D3DFF'
@@ -260,6 +261,9 @@ export function Landing() {
             ))}
           </div>
         </section>
+
+        {/* ====== TEAM ====== */}
+        <TeamSection />
 
         {/* ====== CONTACT ====== */}
         <ContactSection />
