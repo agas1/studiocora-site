@@ -63,7 +63,7 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="mt-16 border-t border-[#0A0A0A]/30 pt-10 md:mt-24 md:pt-14"
+      className="mt-28 border-t border-[#0A0A0A]/30 pt-12 md:mt-44 md:pt-16"
     >
       <div className="grid grid-cols-12 gap-x-6 gap-y-10">
         {/* LEFT — pitch */}

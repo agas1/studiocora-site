@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Logo } from './Logo'
 import { ContactSection } from './ContactSection'
@@ -100,56 +99,33 @@ export function Landing() {
         </motion.header>
 
         {/* ====== HERO ====== */}
-        <section className="mt-10 grid grid-cols-12 gap-x-6 gap-y-8 md:mt-14">
-          {/* LEFT: BIG TYPE */}
+        <section className="mt-20 grid grid-cols-12 gap-x-6 gap-y-20 md:mt-32 md:gap-y-32">
+          {/* BIG TYPE */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.1, ease }}
-            className="col-span-12 md:col-span-7"
+            className="col-span-12"
           >
             <h1
               style={{ fontFamily: 'var(--font-display)' }}
-              className="leading-[0.88] tracking-[-0.01em]"
+              className="text-center leading-[0.88] tracking-[-0.01em]"
             >
-              <span className="block text-[15vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]">
-                BEYOND
+              <span className="block whitespace-nowrap text-[20vw] md:text-[15vw] lg:text-[13rem] xl:text-[16rem]">
+                SOMETHING
               </span>
-              <span className="block text-[15vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]">
-                THE SURFACE,
-              </span>
-              <span
-                style={{ color: ACCENT }}
-                className="block text-[15vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]"
+              <motion.span
+                className="block whitespace-nowrap bg-[linear-gradient(90deg,#3D3DFF_0%,#9D9DFF_25%,#3D3DFF_50%,#1A1AE6_75%,#3D3DFF_100%)] bg-clip-text text-[15vw] text-transparent md:text-[12vw] lg:text-[11rem] xl:text-[13rem]"
+                style={{ backgroundSize: '200% 100%' }}
+                animate={{ backgroundPosition: ['0% 50%', '200% 50%'] }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
               >
-                WE BUILD
-              </span>
-              <span
-                style={{ color: ACCENT }}
-                className="block text-[15vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]"
-              >
-                IDENTITY.
+                EXTRAORDINARY
+              </motion.span>
+              <span className="block whitespace-nowrap text-[20vw] md:text-[15vw] lg:text-[13rem] xl:text-[16rem]">
+                IS COMING.
               </span>
             </h1>
-          </motion.div>
-
-          {/* RIGHT: HERO IMAGE */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2, ease }}
-            className="col-span-12 md:col-span-5"
-          >
-            <div className="group relative aspect-[4/5] w-full overflow-hidden bg-neutral-300">
-              <Image
-                src="/image 1.png"
-                alt="Studio Cora hero portrait"
-                fill
-                priority
-                sizes="(max-width: 768px) 100vw, 45vw"
-                className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
-              />
-            </div>
           </motion.div>
 
           {/* ABOUT TEXT */}
@@ -233,7 +209,7 @@ export function Landing() {
         </section>
 
         {/* ====== SERVICES ROW ====== */}
-        <section className="mt-16 border-t border-[#0A0A0A]/30 pt-8 md:mt-24 md:pt-10">
+        <section className="mt-28 border-t border-[#0A0A0A]/30 pt-12 md:mt-44 md:pt-16">
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-5">
             {services.map((s, i) => (
               <motion.div
@@ -274,7 +250,7 @@ export function Landing() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.7, ease }}
-          className="mt-16 grid grid-cols-12 items-end gap-x-6 gap-y-8 border-t border-[#0A0A0A]/30 pt-8 md:mt-24 md:pt-10"
+          className="mt-28 grid grid-cols-12 items-end gap-x-6 gap-y-8 border-t border-[#0A0A0A]/30 pt-12 md:mt-36 md:pt-16"
         >
           <div className="col-span-12 flex items-end gap-4 md:col-span-4">
             <h2
