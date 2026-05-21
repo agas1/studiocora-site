@@ -1,9 +1,14 @@
 'use client'
 
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import {
+  AnimatePresence,
+  motion,
+  useAnimationControls,
+  useInView,
+} from 'framer-motion'
 import { Logo } from '../Logo'
 import { Art, type ArtVariant } from './ArtTiles'
 
@@ -51,8 +56,8 @@ type Lang = 'en' | 'pt' | 'es'
 type Dict = {
   nav: { work: string; studio: string; services: string }
   contactUs: string
-  heroPre: string
-  heroPost: string
+  heroA: string
+  heroB: string
   studioFor: string
   disc1: string
   disc2: string
@@ -90,8 +95,8 @@ const DICT: Record<Lang, Dict> = {
   en: {
     nav: { work: 'Work', studio: 'Studio', services: 'Services' },
     contactUs: 'Contact us',
-    heroPre: 'We build brands',
-    heroPost: 'that are anything but ordinary',
+    heroA: 'We build',
+    heroB: 'brands that are anything but ordinary',
     studioFor: 'A creative studio for',
     disc1: 'BRANDING · UX',
     disc2: 'WEB · ENGINEERING',
@@ -142,8 +147,8 @@ const DICT: Record<Lang, Dict> = {
   pt: {
     nav: { work: 'Trabalhos', studio: 'Estúdio', services: 'Serviços' },
     contactUs: 'Fale conosco',
-    heroPre: 'Criamos marcas',
-    heroPost: 'que são tudo menos comuns',
+    heroA: 'Criamos',
+    heroB: 'marcas que são tudo menos comuns',
     studioFor: 'Um estúdio criativo de',
     disc1: 'BRANDING · UX',
     disc2: 'WEB · ENGENHARIA',
@@ -194,8 +199,8 @@ const DICT: Record<Lang, Dict> = {
   es: {
     nav: { work: 'Trabajos', studio: 'Estudio', services: 'Servicios' },
     contactUs: 'Contáctanos',
-    heroPre: 'Creamos marcas',
-    heroPost: 'que son todo menos ordinarias',
+    heroA: 'Creamos',
+    heroB: 'marcas que son todo menos ordinarias',
     studioFor: 'Un estudio creativo de',
     disc1: 'BRANDING · UX',
     disc2: 'WEB · INGENIERÍA',
@@ -246,6 +251,50 @@ const DICT: Record<Lang, Dict> = {
 }
 
 /* ---------- decor ---------- */
+
+/** Fixed blue-tinted SVG noise — gives the page a printed/tactile feel. */
+function NoiseGrain() {
+  // Note: use literal `url(#n)` inside the SVG. `encodeURIComponent` turns the
+  // `#` into `%23` in the data URL, which the browser decodes back to `#`
+  // before handing the markup to the SVG parser.
+  const svg = encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 0.29 0 0 0 0 0.25 0 0 0 0 0.89 0 0 0 0.7 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>`
+  )
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-[60] opacity-[0.18] mix-blend-overlay"
+      style={{ backgroundImage: `url("data:image/svg+xml;utf8,${svg}")` }}
+    />
+  )
+}
+
+/** Soft blue glow that drifts — atmospheric depth in the hero. */
+function Orb({
+  className,
+  color,
+  duration = 22,
+  x = [0, 60, 0],
+  y = [0, 40, 0],
+}: {
+  className?: string
+  color: string
+  duration?: number
+  x?: number[]
+  y?: number[]
+}) {
+  return (
+    <motion.div
+      aria-hidden
+      className={`pointer-events-none absolute rounded-full blur-3xl ${className ?? ''}`}
+      style={{
+        background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+      }}
+      animate={{ x, y }}
+      transition={{ duration, repeat: Infinity, ease: 'easeInOut' }}
+    />
+  )
+}
 
 function Asterisk({ className, color = BLUE }: { className?: string; color?: string }) {
   return (
@@ -335,12 +384,101 @@ function SunMoon({ dark: isDark }: { dark: boolean }) {
 
 /* ---------- static data ---------- */
 
-const tiles: { img: string; bg: string; h: string }[] = [
-  { img: '/tile1.png', bg: BLUE, h: 'md:h-44' },
-  { img: '/tile2.png', bg: '#1C1B17', h: 'md:h-64' },
-  { img: '/tile3.png', bg: BLUE, h: 'md:h-80' },
-  { img: '/tile4.png', bg: '#1C1B17', h: 'md:h-64' },
-  { img: '/tile5.png', bg: BLUE, h: 'md:h-44' },
+// Placeholder portfolio photos cached locally in /public/work/ (originally
+// pulled from picsum.photos by scripts/cache-work-images.mjs). Swap each
+// `img` for the real design work when the assets are ready.
+type Project = {
+  title: string
+  tag: string
+  blurb: string
+  extras: string[]
+}
+
+const tiles: { img: string; bg: string; project: Project }[] = [
+  {
+    img: '/work/1.webp',
+    bg: BLUE,
+    project: {
+      title: 'Forma & Function',
+      tag: '2025 · Brand Identity',
+      blurb:
+        'A visual system that bridges architectural rigour with editorial warmth — from monogram to motion.',
+      extras: [
+        '/work/1a.webp',
+        '/work/1b.webp',
+        '/work/1c.webp',
+      ],
+    },
+  },
+  {
+    img: '/work/2.webp',
+    bg: '#1C1B17',
+    project: {
+      title: 'Quiet Hours',
+      tag: '2024 · UX / UI',
+      blurb:
+        'A late-night-friendly journaling product — type-led, frictionless, considered to the last keystroke.',
+      extras: [
+        '/work/2a.webp',
+        '/work/2b.webp',
+        '/work/2c.webp',
+      ],
+    },
+  },
+  {
+    img: '/work/3.webp',
+    bg: BLUE,
+    project: {
+      title: 'Atlas',
+      tag: '2025 · Web',
+      blurb:
+        'A magazine-grade editorial platform — engineered for speed, composed for narrative depth.',
+      extras: [
+        '/work/3a.webp',
+        '/work/3b.webp',
+        '/work/3c.webp',
+      ],
+    },
+  },
+  {
+    img: '/work/4.webp',
+    bg: '#1C1B17',
+    project: {
+      title: 'Halo',
+      tag: '2024 · Motion',
+      blurb:
+        'Brand motion suite for a fragrance launch — sculptural light, precise easing, zero noise.',
+      extras: [
+        '/work/4a.webp',
+        '/work/4b.webp',
+        '/work/4c.webp',
+      ],
+    },
+  },
+  {
+    img: '/work/5.webp',
+    bg: BLUE,
+    project: {
+      title: 'Mason Type',
+      tag: '2025 · Typography',
+      blurb:
+        'A custom display typeface drawn for editorial impact — born in a Studio Cora type workshop.',
+      extras: [
+        '/work/5a.webp',
+        '/work/5b.webp',
+        '/work/5c.webp',
+      ],
+    },
+  },
+]
+
+// Heights tied to the visual SLOT (the pyramid shape), per tile in order.
+const slotHeights = [
+  'md:h-[22rem]',
+  'md:h-[32rem]',
+  'md:h-[42rem]',
+  'md:h-[32rem]',
+  'md:h-[22rem]',
 ]
 
 const offerMeta: { variant: ArtVariant; featured?: boolean }[] = [
@@ -567,6 +705,144 @@ function SmPoster({ t, p }: { t: Dict; p: Palette }) {
   )
 }
 
+/* ---------- dedicated project screen (opens on tile click) ---------- */
+
+function ProjectScreen({
+  project,
+  cover,
+  number,
+  total,
+  blue,
+  inkSoft,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  project: Project
+  cover: string
+  number: number
+  total: number
+  blue: string
+  inkSoft: string
+  onClose: () => void
+  onPrev: () => void
+  onNext: () => void
+}) {
+  return (
+    <div className="flex flex-col">
+      {/* top bar */}
+      <div className="flex items-center justify-between px-6 pt-6 md:px-12 md:pt-10">
+        <span
+          className="text-xs uppercase tracking-[0.3em] md:text-sm"
+          style={{ color: inkSoft }}
+        >
+          {project.tag} ·{' '}
+          <span style={{ color: blue }}>
+            {String(number).padStart(2, '0')} / {String(total).padStart(2, '0')}
+          </span>
+        </span>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors hover:opacity-70"
+          style={{ borderColor: inkSoft }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" aria-hidden>
+            <path
+              d="M6 6l12 12M18 6L6 18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* cover */}
+      <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden md:mt-8">
+        <Image
+          src={cover}
+          alt={project.title}
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+      </div>
+
+      {/* content */}
+      <div className="grid grid-cols-1 gap-10 px-6 py-10 md:grid-cols-12 md:gap-12 md:px-12 md:py-14">
+        <div className="md:col-span-7">
+          <h2
+            style={{ fontFamily: 'var(--font-heading)' }}
+            className="text-3xl font-extrabold uppercase leading-[0.95] tracking-[-0.01em] md:text-5xl"
+          >
+            {project.title}
+          </h2>
+          <p
+            className="mt-5 max-w-xl text-base leading-relaxed md:text-lg"
+            style={{ color: inkSoft }}
+          >
+            {project.blurb}
+          </p>
+        </div>
+
+        <div className="md:col-span-5">
+          <span
+            className="block text-xs font-semibold uppercase tracking-[0.25em]"
+            style={{ color: inkSoft }}
+          >
+            More from this project
+          </span>
+          <div className="mt-4 grid grid-cols-3 gap-2 md:gap-3">
+            {project.extras.map((src, i) => (
+              <div
+                key={i}
+                className="relative aspect-square overflow-hidden rounded-md"
+              >
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  sizes="160px"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* prev / next */}
+      <div
+        className="flex items-center justify-between border-t px-6 py-5 md:px-12"
+        style={{ borderColor: inkSoft }}
+      >
+        <button
+          type="button"
+          onClick={onPrev}
+          className="group inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-wider md:text-base"
+        >
+          <span className="transition-transform duration-300 group-hover:-translate-x-1">
+            ←
+          </span>
+          Prev project
+        </button>
+        <button
+          type="button"
+          onClick={onNext}
+          className="group inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-wider md:text-base"
+        >
+          Next project
+          <span className="transition-transform duration-300 group-hover:translate-x-1">
+            →
+          </span>
+        </button>
+      </div>
+    </div>
+  )
+}
+
 /* ---------- page ---------- */
 
 const LANG_PATH: Record<Lang, string> = { en: '/', pt: '/pt', es: '/es' }
@@ -593,12 +869,72 @@ export function LandingV2({ initialLang = 'en' }: { initialLang?: Lang }) {
 
   const langs: Lang[] = ['en', 'pt', 'es']
 
+  // Work-section entrance: each tile leaps in from the sides / above. The
+  // animation re-plays every time the section re-enters view, BUT we only
+  // re-arm to the hidden state when the section is completely off-screen,
+  // so the cards never visually disappear while any of them is on screen.
+  const tileEntrance = [
+    { x: -260, scale: 0.85 },
+    { x: -130, scale: 0.9 },
+    { y: 80, scale: 0.85 },
+    { x: 130, scale: 0.9 },
+    { x: 260, scale: 0.85 },
+  ]
+  // Carousel rotation: which original tile is currently at the centre slot.
+  // Clicking any tile rotates the row so the clicked one slides into place.
+  const [centerOrigIdx, setCenterOrigIdx] = useState(2)
+  const arrangedTiles = tiles.map((_, slot) => {
+    const origIdx = (centerOrigIdx - 2 + slot + tiles.length) % tiles.length
+    return { tile: tiles[origIdx], origIdx, slot }
+  })
+
+  // Dedicated project screen: which project (by original index) is open in the
+  // fullscreen overlay. null = closed. Click first slides the tile to centre,
+  // then (after the rotation settles) opens the dedicated view with a flip-in.
+  const [openProjectIdx, setOpenProjectIdx] = useState<number | null>(null)
+  const openProject = (origIdx: number) => {
+    setCenterOrigIdx(origIdx)
+    // Delay matches the carousel layout spring — let the tile reach the centre
+    // before the dedicated screen flips in over it.
+    window.setTimeout(() => setOpenProjectIdx(origIdx), 650)
+  }
+  // ESC closes the overlay; body scroll is locked while open so the page
+  // behind doesn't shift under the modal.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenProjectIdx(null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+  useEffect(() => {
+    const prev = document.body.style.overflow
+    document.body.style.overflow = openProjectIdx !== null ? 'hidden' : prev
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [openProjectIdx])
+  const workRef = useRef<HTMLDivElement>(null)
+  // Two thresholds: play the animation only once the section is meaningfully
+  // visible (≥20%), and re-arm to hidden only when it is completely off-screen
+  // — that way cards never appear to disappear while any of them is visible.
+  const workMeaningfullyVisible = useInView(workRef, { amount: 0.2 })
+  const workAnyVisible = useInView(workRef)
+  const workControls = useAnimationControls()
+  useEffect(() => {
+    if (workMeaningfullyVisible) workControls.start('visible')
+  }, [workMeaningfullyVisible, workControls])
+  useEffect(() => {
+    if (!workAnyVisible) workControls.set('hidden')
+  }, [workAnyVisible, workControls])
+
   return (
     <div
       className="min-h-screen w-full overflow-x-hidden transition-colors duration-500"
       style={{ backgroundColor: p.bg, color: p.ink }}
     >
-      <main className="mx-auto w-full max-w-[1600px] px-6 py-7 md:px-16 md:py-10 lg:px-24">
+      <NoiseGrain />
+      <main className="relative mx-auto w-full max-w-[1600px] px-6 py-7 md:px-16 md:py-10 lg:px-24">
         {/* ===== HEADER ===== */}
         <motion.header
           initial={{ opacity: 0, y: -10 }}
@@ -670,65 +1006,40 @@ export function LandingV2({ initialLang = 'en' }: { initialLang?: Lang }) {
         <div className="mt-6 h-px w-full" style={{ backgroundColor: p.border }} />
 
         {/* ===== HERO ===== */}
-        <section id="work" className="relative mt-12 md:mt-16">
+        <section className="relative mt-12 md:mt-16">
+          {/* single atmospheric blue orb — drifts slowly behind the headline */}
+          <Orb
+            className="-left-32 -top-24 h-[38rem] w-[38rem]"
+            color={`${p.blue}99`}
+            duration={36}
+            x={[0, 80, 0]}
+            y={[0, 50, 0]}
+          />
+
           <Asterisk
-            className="absolute -top-2 left-0 h-8 w-8 md:h-12 md:w-12"
+            className="absolute -top-2 left-0 h-9 w-9 md:h-12 md:w-12"
             color={p.blue}
           />
-          <Sparkle className="absolute right-2 top-0 h-7 w-7 md:h-10 md:w-10" />
+          <Sparkle className="absolute right-2 top-0 h-8 w-8 md:h-11 md:w-11" />
 
           <motion.h1
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.1, ease }}
             style={{ fontFamily: 'var(--font-heading)' }}
-            className="mx-auto max-w-4xl text-center text-[10vw] font-extrabold uppercase leading-[1.02] tracking-[-0.02em] md:text-[5.4vw] lg:text-[4.4rem]"
+            className="relative z-10 mx-auto max-w-[1400px] text-center text-[12vw] font-extrabold uppercase leading-[0.96] tracking-[-0.02em] md:text-[8vw] lg:text-[7rem] xl:text-[8.25rem]"
           >
-            {t.heroPre}{' '}
-            <span
-              className="mx-1 inline-flex h-[0.62em] w-[1.5em] translate-y-[0.04em] items-center justify-center rounded-full align-middle"
+            {t.heroA}{' '}
+            <a
+              href="#contact"
+              aria-label={t.contactUs}
+              className="mx-1 inline-flex h-[0.62em] w-[1.5em] translate-y-[0.04em] items-center justify-center rounded-full align-middle transition-transform duration-300 ease-out hover:scale-[1.06]"
               style={{ backgroundColor: RED }}
             >
               <ArrowRight className="h-[0.3em] w-auto" color="#1C1B17" />
-            </span>{' '}
-            {t.heroPost}
+            </a>{' '}
+            {t.heroB}
           </motion.h1>
-
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35, ease }}
-            className="mt-10 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center"
-          >
-            <div className="text-sm leading-snug">
-              <p style={{ color: p.inkSoft }}>{t.studioFor}</p>
-              <p
-                className="font-semibold"
-                style={{ fontFamily: 'var(--font-heading)' }}
-              >
-                {t.disc1}
-              </p>
-              <p
-                className="font-semibold"
-                style={{ fontFamily: 'var(--font-heading)' }}
-              >
-                {t.disc2}
-              </p>
-            </div>
-            <a
-              href="#contact"
-              className="group inline-flex items-center gap-3 rounded-full border py-2 pl-6 pr-2 text-sm font-semibold transition-colors duration-300"
-              style={{ borderColor: p.border }}
-            >
-              {t.startProject}
-              <span
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full"
-                style={{ backgroundColor: RED }}
-              >
-                <ArrowUpRight className="h-4 w-4 text-[#1C1B17]" />
-              </span>
-            </a>
-          </motion.div>
 
           {/* marquee chant */}
           <div
@@ -758,31 +1069,117 @@ export function LandingV2({ initialLang = 'en' }: { initialLang?: Lang }) {
             </div>
           </div>
 
-          {/* tiles — static pyramid like the reference */}
-          <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 md:mt-16 md:flex md:items-center md:justify-center md:gap-5">
-            {tiles.map((tile, i) => (
+        </section>
+
+        {/* ===== WORK — click rotates to centre, then a dedicated screen
+              opens for that project (carousel + flip into fullscreen) ===== */}
+        <section id="work" className="mt-20 md:mt-32">
+          <motion.div
+            ref={workRef}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: { staggerChildren: 0.1, delayChildren: 0.05 },
+              },
+            }}
+            initial="hidden"
+            animate={workControls}
+            className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:flex md:items-center md:justify-center md:gap-6"
+          >
+            {arrangedTiles.map(({ tile, origIdx, slot }) => (
               <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.7, delay: i * 0.06, ease }}
-                className={`${tile.h} group relative aspect-square overflow-hidden rounded-[26px] transition-transform duration-500 ease-out hover:-translate-y-1.5 md:aspect-auto md:flex-1`}
+                key={origIdx}
+                layout
+                onClick={() => openProject(origIdx)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Open project ${tile.project.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    openProject(origIdx)
+                  }
+                }}
                 style={{ backgroundColor: tile.bg }}
+                variants={{
+                  hidden: { opacity: 0, ...tileEntrance[slot] },
+                  visible: {
+                    opacity: 1,
+                    x: 0,
+                    y: 0,
+                    scale: 1,
+                    transition: { duration: 1, ease },
+                  },
+                }}
+                whileHover={{ y: -8 }}
+                transition={{
+                  layout: { type: 'spring', stiffness: 160, damping: 22 },
+                }}
+                className={`${slotHeights[slot]} group relative aspect-square cursor-pointer overflow-hidden rounded-[28px] md:aspect-auto md:flex-1`}
               >
-                <div className="absolute inset-0 p-6">
-                  <Image
-                    src={tile.img}
-                    alt=""
-                    fill
-                    sizes="(max-width: 768px) 50vw, 18vw"
-                    className="object-contain p-2 transition-transform duration-500 ease-out group-hover:scale-105"
-                  />
-                </div>
+                <Image
+                  src={tile.img}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 50vw, 20vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                />
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </section>
+
+        {/* ===== DEDICATED PROJECT SCREEN ===== */}
+        <AnimatePresence>
+          {openProjectIdx !== null && (
+            <motion.div
+              key="project-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease }}
+              onClick={() => setOpenProjectIdx(null)}
+              className="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4 md:p-10"
+              style={{ perspective: 1800 }}
+              role="dialog"
+              aria-modal="true"
+              aria-label={tiles[openProjectIdx].project.title}
+            >
+              <motion.article
+                initial={{ rotateY: 92, opacity: 0, scale: 0.92 }}
+                animate={{ rotateY: 0, opacity: 1, scale: 1 }}
+                exit={{ rotateY: -92, opacity: 0, scale: 0.92 }}
+                transition={{ duration: 0.75, ease }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  transformStyle: 'preserve-3d',
+                  backgroundColor: p.bg,
+                  color: p.ink,
+                  borderColor: p.border,
+                }}
+                className="relative max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-[28px] border shadow-2xl md:rounded-[36px]"
+              >
+                <ProjectScreen
+                  project={tiles[openProjectIdx].project}
+                  cover={tiles[openProjectIdx].img}
+                  number={openProjectIdx + 1}
+                  total={tiles.length}
+                  blue={p.blue}
+                  inkSoft={p.inkSoft}
+                  onClose={() => setOpenProjectIdx(null)}
+                  onPrev={() =>
+                    setOpenProjectIdx(
+                      (openProjectIdx - 1 + tiles.length) % tiles.length
+                    )
+                  }
+                  onNext={() =>
+                    setOpenProjectIdx((openProjectIdx + 1) % tiles.length)
+                  }
+                />
+              </motion.article>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ===== WHAT WE DO PANEL ===== */}
         <section
