@@ -1,10 +1,13 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Logo } from './Logo'
 import { ContactSection } from './ContactSection'
 import { TeamSection } from './TeamSection'
+
+const HERO_IMAGES = ['/hero1.jpg', '/hero2.jpg'] as const
 
 const ease = [0.16, 1, 0.3, 1] as const
 const ACCENT = '#3D3DFF'
@@ -75,6 +78,51 @@ function SmallCoraSwirl({ className }: { className?: string }) {
   )
 }
 
+function HeroCarousel() {
+  const [idx, setIdx] = useState(0)
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setIdx((i) => (i + 1) % HERO_IMAGES.length)
+    }, 4200)
+    return () => clearInterval(t)
+  }, [])
+
+  return (
+    <div className="group relative aspect-[4/5] w-full overflow-hidden bg-neutral-300">
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={idx}
+          initial={{ opacity: 0, scale: 1.08 }}
+          animate={{
+            opacity: 1,
+            scale: 1.0,
+            transition: { opacity: { duration: 1.1, ease: [0.16, 1, 0.3, 1] }, scale: { duration: 4.5, ease: 'easeOut' } },
+          }}
+          exit={{ opacity: 0, transition: { duration: 1.0, ease: 'easeInOut' } }}
+          className="absolute inset-0"
+        >
+          {/* slow continuous ken-burns drift so the live frame never feels static */}
+          <motion.div
+            animate={{ scale: [1, 1.06, 1], x: [0, 6, 0], y: [0, -4, 0] }}
+            transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+            className="relative h-full w-full"
+          >
+            <Image
+              src={HERO_IMAGES[idx]}
+              alt="Studio Cora, anything but ordinary"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 45vw"
+              className="object-cover"
+            />
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  )
+}
+
 export function Landing() {
   return (
     <main className="min-h-screen w-full bg-[#EDEDED] text-[#0A0A0A]">
@@ -90,12 +138,9 @@ export function Landing() {
             <Logo studioColor="#0A0A0A" className="h-8 w-auto md:h-10" />
           </div>
 
-          <div className="col-span-8 hidden flex-col text-sm leading-tight md:col-span-7 md:flex">
+          <div className="col-span-8 hidden flex-col text-sm leading-tight md:col-span-8 md:flex">
             <p>we design</p>
             <p>brands that stand out</p>
-          </div>
-          <div className="hidden items-center justify-end md:col-span-1 md:flex">
-            <span className="text-sm">/ 01</span>
           </div>
         </motion.header>
 
@@ -112,44 +157,35 @@ export function Landing() {
               style={{ fontFamily: 'var(--font-display)' }}
               className="leading-[0.88] tracking-[-0.01em]"
             >
-              <span className="block text-[15vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]">
+              <span className="block text-[13vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]">
                 BEYOND
               </span>
-              <span className="block text-[15vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]">
+              <span className="block text-[13vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]">
                 THE SURFACE,
               </span>
               <span
                 style={{ color: ACCENT }}
-                className="block text-[15vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]"
+                className="block text-[13vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]"
               >
                 WE BUILD
               </span>
               <span
                 style={{ color: ACCENT }}
-                className="block text-[15vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]"
+                className="block text-[13vw] md:text-[8.5vw] lg:text-[8rem] xl:text-[9.5rem]"
               >
                 IDENTITY.
               </span>
             </h1>
           </motion.div>
 
-          {/* RIGHT: HERO IMAGE */}
+          {/* RIGHT: HERO IMAGE — crossfading carousel between hero1 + hero2 */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.2, ease }}
             className="col-span-12 md:col-span-5"
           >
-            <div className="group relative aspect-[4/5] w-full overflow-hidden bg-neutral-300">
-              <Image
-                src="/image 1.png"
-                alt="Studio Cora hero portrait"
-                fill
-                priority
-                sizes="(max-width: 768px) 100vw, 45vw"
-                className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
-              />
-            </div>
+            <HeroCarousel />
           </motion.div>
 
           {/* ABOUT TEXT */}
@@ -179,26 +215,26 @@ export function Landing() {
               style={{ backgroundColor: ACCENT }}
               className="relative aspect-[4/3] overflow-hidden text-[#EDEDED] transition-transform duration-500 ease-out hover:-translate-y-1"
             >
-              <div className="flex h-full flex-col justify-between p-3 md:p-4">
+              <div className="flex h-full flex-col justify-between p-2 md:p-4">
                 <span
                   style={{ fontFamily: 'var(--font-display)' }}
-                  className="text-2xl md:text-4xl"
+                  className="text-base leading-none md:text-4xl"
                 >
                   FORMA
                 </span>
-                <span className="text-[10px] uppercase tracking-widest opacity-80">
+                <span className="text-[9px] uppercase tracking-widest opacity-80 md:text-[10px]">
                   Project 01
                 </span>
               </div>
             </div>
             <div className="relative aspect-[4/3] overflow-hidden bg-[#0A0A0A] text-[#EDEDED] transition-transform duration-500 ease-out hover:-translate-y-1">
-              <div className="flex h-full flex-col justify-between p-3 md:p-4">
+              <div className="flex h-full flex-col justify-between p-2 md:p-4">
                 <span className="text-[10px] uppercase tracking-widest opacity-70">
                   01
                 </span>
                 <div
                   style={{ fontFamily: 'var(--font-display)' }}
-                  className="text-base leading-tight md:text-xl"
+                  className="text-[11px] leading-[1.1] md:text-xl"
                 >
                   ABOUT
                   <br />
@@ -214,10 +250,10 @@ export function Landing() {
               style={{ backgroundColor: ACCENT }}
               className="relative aspect-[4/3] overflow-hidden text-[#EDEDED] transition-transform duration-500 ease-out hover:-translate-y-1"
             >
-              <div className="flex h-full flex-col justify-end p-3 md:p-4">
+              <div className="flex h-full flex-col justify-end p-2 md:p-4">
                 <p
                   style={{ fontFamily: 'var(--font-display)' }}
-                  className="text-sm leading-tight md:text-lg"
+                  className="text-[11px] leading-[1.1] md:text-lg"
                 >
                   building
                   <br />
@@ -308,17 +344,17 @@ export function Landing() {
             </a>
           </div>
 
-          <div className="col-span-6 md:col-span-4">
+          <div className="col-span-12 sm:col-span-6 md:col-span-4">
             <p
               style={{ fontFamily: 'var(--font-display)' }}
               className="text-base lowercase md:text-lg"
             >
-              studio cora
+              studiocora
             </p>
             <p className="text-sm text-[#0A0A0A]/80">design that connects.</p>
           </div>
 
-          <div className="col-span-6 flex items-center justify-between md:col-span-4">
+          <div className="col-span-12 flex items-center justify-between sm:col-span-6 md:col-span-4">
             <div>
               <a
                 href="mailto:hello@usestudiocora.com"

@@ -83,7 +83,7 @@ export function ContactSection() {
             <span style={{ color: ACCENT }}>PROJECT.</span>
           </h2>
           <p className="mt-6 max-w-sm text-[15px] leading-[1.5] text-[#0A0A0A]/80 md:text-base">
-            A short note, an early idea, a deadline you’re unsure about — we’ll
+            A short note, an early idea, a deadline you’re unsure about. We’ll
             get back within two working days.
           </p>
         </motion.div>
@@ -147,7 +147,7 @@ export function ContactSection() {
                 {isSubmitting
                   ? 'Sending…'
                   : isSuccess
-                    ? 'Sent — thank you'
+                    ? 'Sent. Thank you'
                     : 'Send message'}
                 {!isSuccess && (
                   <svg

@@ -55,7 +55,7 @@ export function TeamSection() {
           BEHIND <span style={{ color: ACCENT }}>CORA.</span>
         </h2>
         <p className="col-span-12 max-w-sm self-end text-[15px] leading-[1.5] text-[#0A0A0A]/80 md:col-span-5 md:text-base">
-          Two co-founders bridging design and engineering — so every idea ships
+          Two co-founders bridging design and engineering. Every idea ships
           with both feeling and craft.
         </p>
       </motion.div>
