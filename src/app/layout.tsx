@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '../styles/globals.css'
 import { OrganizationSchema } from '@/components/OrganizationSchema'
+import { GoogleTagManager } from '@next/third-parties/google'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://usestudiocora.com'),
@@ -16,6 +17,11 @@ export const metadata: Metadata = {
   authors: [{ name: 'Studio Cora' }],
   creator: 'Studio Cora',
   publisher: 'Studio Cora',
+
+  icons: {
+    icon: [{ url: '/icon.png', type: 'image/png', sizes: '200x200' }],
+    apple: [{ url: '/icon.png', type: 'image/png', sizes: '200x200' }],
+  },
 
   alternates: {
     canonical: '/',
@@ -62,6 +68,8 @@ export default function RootLayout({
         <OrganizationSchema />
         {children}
       </body>
+
+      <GoogleTagManager gtmId="GTM-KFPGHV7J" />
     </html>
   )
 }
