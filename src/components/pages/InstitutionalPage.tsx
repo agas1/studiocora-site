@@ -115,7 +115,7 @@ function StudioTeam({ locale, copy }: { locale: Locale; copy: ReturnType<typeof 
         <HorizontalScrollDrift direction="left">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             <article className="flex min-h-[300px] flex-col rounded-[18px] bg-[#1B1B1B] p-6 sm:col-span-2 lg:min-h-0">
-              <p className="text-[clamp(3.5rem,5vw,5.5rem)] leading-none tracking-[-0.06em]">02</p>
+              <p className="text-[clamp(3.5rem,5vw,5.5rem)] leading-none tracking-[-0.06em]">07</p>
               <p className="mt-auto pt-16 text-lg text-white/40">{isPt ? 'Pessoas na equipe.' : 'People on the team.'}</p>
             </article>
             {portraits.slice(0, 3).map((member, index) => (
