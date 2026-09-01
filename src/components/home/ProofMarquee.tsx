@@ -1,21 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import type { SiteContent } from '@/content'
 
-const ACCENT = '#3D3DFF'
+const ACCENT = '#6966F0'
 
 const ease = [0.16, 1, 0.3, 1] as const
-
-const PARTNERS = [
-  'BRANDING',
-  'SOCIAL MEDIA',
-  'WEB DESIGN',
-  'CREATIVE DIRECTION',
-  'DIGITAL EXPERIENCES',
-  'BRANDING',
-  'SOCIAL MEDIA',
-  'WEB DESIGN',
-] as const
 
 function Asterisk({ className }: { className?: string }) {
   return (
@@ -36,7 +26,8 @@ function Asterisk({ className }: { className?: string }) {
   )
 }
 
-export function ProofMarquee() {
+export function ProofMarquee({ copy }: { copy: SiteContent['proof'] }) {
+  const partners = [...copy.items, ...copy.items]
   return (
     <section
             className="
@@ -47,7 +38,7 @@ export function ProofMarquee() {
               border-y
               border-dashed
               border-[#0A0A0A]/20
-              bg-[#EDEDED]
+              bg-white
               py-6
               md:py-8
             "
@@ -62,7 +53,7 @@ export function ProofMarquee() {
                 className="
                   relative z-20
                   flex shrink-0 items-center gap-4
-                  bg-[#EDEDED]
+                  bg-white
                   pl-6 pr-8
                   md:pl-10 md:pr-12
                 "
@@ -90,9 +81,9 @@ export function ProofMarquee() {
                     md:text-[11px]
                   "
                 >
-                  7+ YEARS OF CREATIVE EXPERIENCE
+                  {copy.line1}
                   <br />
-                  BUILDING BRANDS &amp; DIGITAL EXPERIENCES.
+                  {copy.line2}
                 </p>
     
               </motion.div>
@@ -133,7 +124,7 @@ export function ProofMarquee() {
     
                   <div className="flex shrink-0 items-center">
     
-                    {PARTNERS.map((partner, index) => (
+                    {partners.map((partner, index) => (
                       <div
                         key={`first-${partner}-${index}`}
                         className="
@@ -173,7 +164,7 @@ export function ProofMarquee() {
                     className="flex shrink-0 items-center"
                   >
     
-                    {PARTNERS.map((partner, index) => (
+                    {partners.map((partner, index) => (
                       <div
                         key={`second-${partner}-${index}`}
                         className="

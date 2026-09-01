@@ -1,6 +1,6 @@
 const organizationSchema = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
+  '@type': 'Organization',
   '@id': 'https://usestudiocora.com/#organization',
 
   name: 'Studio Cora',
@@ -11,11 +11,11 @@ const organizationSchema = {
   description:
     'A Studio Cora é um estúdio de design especializado em gestão de redes sociais, branding, identidade visual, direção criativa, landing pages e desenvolvimento web para empresas que desejam construir uma presença digital forte e memorável.',
 
-  slogan: 'Where brands become memorable.',
+  slogan: 'Design that connects.',
 
   logo: {
     '@type': 'ImageObject',
-    url: 'https://usestudiocora.com/logo.svg',
+    url: 'https://usestudiocora.com/icon.png',
   },
 
   image: 'https://usestudiocora.com/opengraph-image.png',
@@ -79,13 +79,6 @@ const organizationSchema = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Criação de Logotipo',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
           name: 'Landing Pages',
         },
       },
@@ -99,24 +92,10 @@ const organizationSchema = {
     ],
   },
 
-  keywords: [
-    'Studio Cora',
-    'Gestão de Redes Sociais',
-    'Social Media',
-    'Branding',
-    'Identidade Visual',
-    'Criação de Logotipo',
-    'Landing Pages',
-    'Desenvolvimento Web',
-    'Design',
-    'Direção Criativa',
-  ],
-
   knowsAbout: [
     'Gestão de Redes Sociais',
     'Branding',
     'Identidade Visual',
-    'Criação de Logotipo',
     'Direção Criativa',
     'Landing Pages',
     'Desenvolvimento Web',

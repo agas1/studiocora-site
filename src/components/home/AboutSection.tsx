@@ -2,28 +2,29 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import type { Locale, SiteContent } from '@/content'
 
 const ease = [0.16, 1, 0.3, 1] as const
-const ACCENT = '#3D3DFF'
-const RED = '#FF3B30'
+const ACCENT = '#6966F0'
+const RED = '#7473F5'
 
-export function AboutSection() {
+export function AboutSection({ locale, copy }: { locale: Locale; copy: SiteContent['about'] }) {
   return (
-    <div className="mx-auto w-full max-w-[1440px] px-6 md:px-10">
+    <div className="mx-auto w-full max-w-[1600px] px-9 md:px-[52px]">
     
             <section
               id="studio"
               className="
                 grid grid-cols-12
                 gap-x-6 gap-y-10
-                py-20
-                md:py-28
+                py-16
+                md:py-20
               "
             >
     
               <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -24, y: 8 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.7, ease }}
                 className="col-span-12"
@@ -48,14 +49,14 @@ export function AboutSection() {
                     style={{ backgroundColor: RED }}
                   />
     
-                  Who we are
+                  {copy.label}
                 </div>
     
               </motion.div>
     
               <motion.div
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -30, y: 10 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{
                   duration: 0.8,
@@ -67,28 +68,28 @@ export function AboutSection() {
                 <h2
                   className="
                     max-w-[900px]
-                    text-[clamp(2.8rem,5.5vw,6rem)]
+                    text-[clamp(2.5rem,4.8vw,5rem)]
                     leading-[0.96]
                     tracking-[-0.055em]
                   "
                 >
-                  We build brands that
+                  {copy.line1}
                   <br />
     
                   <span style={{ color: ACCENT }}>
-                    refuse to disappear
+                    {copy.highlight}
                   </span>
     
                   <br />
     
-                  into the ordinary.
+                  {copy.line2}
                 </h2>
     
               </motion.div>
     
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: 28, y: 8 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{
                   duration: 0.8,
@@ -104,47 +105,20 @@ export function AboutSection() {
               >
     
                 <Link
-                  href="/sobre"
-                  className="
-                    group
-                    flex items-center
-                    gap-4
-                    text-[22px]
-                    font-bold
-                    leading-none
-                    tracking-[-0.035em]
-                    md:text-[28px]
-                  "
+                  href={locale === 'pt' ? '/pt/sobre' : '/en/studio'}
+                  className="group relative flex w-fit items-center text-xl font-bold leading-none tracking-[-0.03em] md:mr-10 md:text-2xl"
                 >
-    
                   <span
-                    style={{ color: RED }}
-                    className="
-                      text-[30px]
-                      font-light
-                      leading-none
-                      transition-transform
-                      duration-300
-                      group-hover:translate-x-1
-                      md:text-[34px]
-                    "
+                    aria-hidden="true"
+                    className="absolute left-0 text-3xl font-light leading-none text-[#7473F5] opacity-0 transition-[opacity,transform] duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100"
                   >
                     →
                   </span>
-    
                   <span
-                    className="
-                      border-b-2
-                      border-dotted
-                      pb-1
-                    "
-                    style={{
-                      borderColor: RED,
-                    }}
+                    className="border-b border-dotted border-[#7473F5] pb-1 transition-transform duration-300 ease-out group-hover:translate-x-10"
                   >
-                    About The Studio
+                    {copy.cta}
                   </span>
-    
                 </Link>
     
               </motion.div>

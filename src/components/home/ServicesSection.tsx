@@ -3,45 +3,51 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
+import type { SiteContent } from '@/content'
 
 const ease = [0.16, 1, 0.3, 1] as const
-const RED = '#FF3B30'
+const RED = '#7473F5'
 
-const services = [
-  {
-    title: 'BRANDING',
-    label: 'BRANDING',
-    body: 'Strategic thinking, positioning and visual identity systems built to make brands recognizable and memorable.',
-    image: '/hero1.jpg',
-  },
-  {
-    title: 'WEBSITES',
-    label: 'WEB DESIGN',
-    body: 'Responsive, high-performing websites that combine clear structure, strong design and thoughtful digital experiences.',
-    image: '/hero2.jpg',
-  },
-  {
-    title: 'SOCIAL MEDIA',
-    label: 'SOCIAL MEDIA',
-    body: 'Creative direction, strategy and content designed to build presence, consistency and connection across social platforms.',
-    image: '/hero1.jpg',
-  },
-  {
-    title: 'CREATIVE DIRECTION',
-    label: 'CREATIVE DIRECTION',
-    body: 'Concept, art direction and visual systems that give every touchpoint a coherent and distinctive creative language.',
-    image: '/hero2.jpg',
-  },
-  {
-    title: 'DIGITAL EXPERIENCES',
-    label: 'DIGITAL EXPERIENCES',
-    body: 'Interfaces, interactions and digital products designed to feel intuitive, functional and visually distinctive.',
-    image: '/hero1.jpg',
-  },
-]
+const serviceImages = ['/hero1.jpg', '/hero2.jpg', '/hero1.jpg', '/hero2.jpg', '/hero1.jpg'] as const
 
-export function ServicesSection() {
+type ServiceItem = SiteContent['services']['items'][number] & { image: string }
+
+function ActiveServiceCard({ service }: { service: ServiceItem }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 24, y: 10, filter: 'blur(8px)' }}
+      animate={{ opacity: 1, x: 0, y: 0, filter: 'blur(0px)' }}
+      exit={{ opacity: 0, x: 18, y: 8, filter: 'blur(6px)' }}
+      transition={{ duration: 0.35, ease }}
+      className="mt-6 md:mt-0"
+    >
+      <div className="relative aspect-[4/3] w-full max-w-[390px] overflow-hidden rounded-[18px]">
+        <Image
+          src={service.image}
+          alt={service.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 390px"
+          className="object-cover"
+        />
+      </div>
+
+      <div className="mt-6 flex items-center gap-2">
+        <span style={{ color: RED }} className="text-lg font-light leading-none">+</span>
+        <span className="text-[9px] uppercase tracking-[0.12em] text-white/55">
+          {service.label}
+        </span>
+      </div>
+
+      <p className="mt-5 max-w-[360px] text-[14px] font-medium leading-[1.5] text-white md:text-base">
+        {service.body}
+      </p>
+    </motion.div>
+  )
+}
+
+export function ServicesSection({ copy }: { copy: SiteContent['services'] }) {
   const [activeService, setActiveService] = useState<number | null>(null)
+  const services = copy.items.map((service, index) => ({ ...service, image: serviceImages[index] }))
 
   return (
     <section
@@ -50,7 +56,6 @@ export function ServicesSection() {
               mx-auto
               mt-8
               w-[calc(100%-24px)]
-              max-w-[1440px]
               overflow-hidden
               rounded-[24px]
               bg-[#0A0A0A]
@@ -73,8 +78,8 @@ export function ServicesSection() {
             >
     
               <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -28, y: 8 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.7, ease }}
                 className="col-span-12 md:col-span-7"
@@ -99,27 +104,27 @@ export function ServicesSection() {
                     style={{ backgroundColor: RED }}
                   />
     
-                  Services
+                  {copy.label}
                 </div>
     
                 <h2
                   className="
                     max-w-[720px]
-                    text-[clamp(3rem,6vw,6rem)]
+                    text-[clamp(2.6rem,5vw,5.2rem)]
                     leading-[0.92]
                     tracking-[-0.055em]
                   "
                 >
-                  Everything your
+                  {copy.titleLine1}
                   <br />
-                  brand needs
+                  {copy.titleLine2}
                 </h2>
     
               </motion.div>
     
               <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: 28, y: 8 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{
                   duration: 0.7,
@@ -142,8 +147,7 @@ export function ServicesSection() {
                     md:text-sm
                   "
                 >
-                  We shape brands through strategy, design, content and digital
-                  experiences — from first idea to final execution.
+                  {copy.description}
                 </p>
     
               </motion.div>
@@ -170,13 +174,14 @@ export function ServicesSection() {
                   const isActive = activeService === index
     
                   return (
-    
+                    <div key={service.title} className="relative">
                     <motion.button
-                      key={service.title}
                       type="button"
+                      aria-pressed={isActive}
                       onMouseEnter={() => setActiveService(index)}
                       onFocus={() => setActiveService(index)}
                       onBlur={() => setActiveService(null)}
+                      onClick={() => setActiveService(index)}
                       initial={{ opacity: 0, y: 18 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: '-60px' }}
@@ -192,9 +197,9 @@ export function ServicesSection() {
                         border-b
                         border-dashed
                         border-white/15
-                        py-7
+                        py-11
                         text-left
-                        md:py-8
+                        md:py-14
                       "
                     >
     
@@ -212,7 +217,7 @@ export function ServicesSection() {
                             text-[34px]
                             font-light
                             leading-none
-                            md:text-[44px]
+                            md:text-[38px]
                           "
                         >
                           →
@@ -233,7 +238,7 @@ export function ServicesSection() {
                             duration: 0.25,
                           }}
                           className="
-                            text-[clamp(2.3rem,5vw,5.4rem)]
+                            text-[clamp(2.7rem,5.2vw,6.2rem)]
                             font-semibold
                             leading-[0.95]
                             tracking-[-0.055em]
@@ -269,130 +274,18 @@ export function ServicesSection() {
                       </div>
     
                     </motion.button>
-    
+
+                    <AnimatePresence>
+                      {isActive && (
+                        <div className="md:absolute md:left-[calc(100%+2.5rem)] md:top-0 md:w-[calc(71.4286%-2.5rem)]">
+                          <ActiveServiceCard service={service} />
+                        </div>
+                      )}
+                    </AnimatePresence>
+                    </div>
                   )
     
                 })}
-    
-              </div>
-    
-              {/* RIGHT ACTIVE SERVICE */}
-    
-              <div
-                className="
-                  col-span-12
-                  mt-10
-                  md:col-span-5
-                  md:mt-0
-                "
-              >
-    
-                <div
-                  className="
-                    sticky
-                    top-10
-                    min-h-[470px]
-                  "
-                >
-    
-                  <AnimatePresence mode="wait">
-    
-                    {activeService !== null && (
-    
-                      <motion.div
-                        key={services[activeService].title}
-                        initial={{
-                          opacity: 0,
-                          x: 24,
-                          y: 10,
-                          filter: 'blur(8px)',
-                        }}
-                        animate={{
-                          opacity: 1,
-                          x: 0,
-                          y: 0,
-                          filter: 'blur(0px)',
-                        }}
-                        exit={{
-                          opacity: 0,
-                          x: 18,
-                          y: 8,
-                          filter: 'blur(6px)',
-                        }}
-                        transition={{
-                          duration: 0.35,
-                          ease,
-                        }}
-                      >
-    
-                        <div
-                          className="
-                            relative
-                            aspect-[4/3]
-                            w-full
-                            max-w-[390px]
-                            overflow-hidden
-                            rounded-[18px]
-                          "
-                        >
-    
-                          <Image
-                            src={services[activeService].image}
-                            alt={services[activeService].title}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 390px"
-                            className="object-cover"
-                          />
-    
-                        </div>
-    
-                        <div className="mt-6 flex items-center gap-2">
-    
-                          <span
-                            style={{ color: RED }}
-                            className="
-                              text-lg
-                              font-light
-                              leading-none
-                            "
-                          >
-                            +
-                          </span>
-    
-                          <span
-                            className="
-                              text-[9px]
-                              uppercase
-                              tracking-[0.12em]
-                              text-white/55
-                            "
-                          >
-                            {services[activeService].label}
-                          </span>
-    
-                        </div>
-    
-                        <p
-                          className="
-                            mt-5
-                            max-w-[360px]
-                            text-[14px]
-                            font-medium
-                            leading-[1.5]
-                            text-white
-                            md:text-base
-                          "
-                        >
-                          {services[activeService].body}
-                        </p>
-    
-                      </motion.div>
-    
-                    )}
-    
-                  </AnimatePresence>
-    
-                </div>
     
               </div>
     

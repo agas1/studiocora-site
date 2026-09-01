@@ -11,16 +11,16 @@ const SHOWCASE_IMAGES = [
 ] as const
 
 export function ShowcaseMarquee() {
-  const duplicated = [...SHOWCASE_IMAGES, ...SHOWCASE_IMAGES]
+  const duplicated = [...SHOWCASE_IMAGES, ...SHOWCASE_IMAGES, ...SHOWCASE_IMAGES]
 
   return (
-    <section className="w-full overflow-hidden py-6 md:py-10">
+    <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-70px' }} transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }} className="w-full overflow-hidden py-6 md:py-10">
       <motion.div
         animate={{
-          x: ['0%', '-50%'],
+          x: ['0%', '-33.3333%'],
         }}
         transition={{
-          duration: 26,
+          duration: 15,
           repeat: Infinity,
           ease: 'linear',
         }}
@@ -31,22 +31,22 @@ export function ShowcaseMarquee() {
             key={`${src}-${index}`}
             className="
               relative
-              h-[310px]
-              w-[230px]
+              h-[340px]
+              w-[250px]
               shrink-0
               overflow-hidden
               rounded-[18px]
-              sm:h-[380px]
-              sm:w-[285px]
-              md:h-[430px]
-              md:w-[330px]
+              sm:h-[410px]
+              sm:w-[310px]
+              md:h-[500px]
+              md:w-[380px]
             "
           >
             <Image
               src={src}
-              alt={`Studio Cora showcase ${index + 1}`}
+              alt=""
               fill
-              sizes="(max-width: 768px) 230px, 330px"
+              sizes="(max-width: 640px) 250px, (max-width: 768px) 310px, 380px"
               className="object-cover"
             />
 
@@ -54,6 +54,6 @@ export function ShowcaseMarquee() {
           </div>
         ))}
       </motion.div>
-    </section>
+    </motion.section>
   )
 }

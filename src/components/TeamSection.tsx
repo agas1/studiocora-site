@@ -2,39 +2,34 @@
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import type { SiteContent } from '@/content'
 
 const ease = [0.16, 1, 0.3, 1] as const
-const ACCENT = '#3D3DFF'
+const ACCENT = '#6966F0'
 
 type Member = {
-  label: string
   firstName: string
   lastName: string
-  role: string
   initials: string
   photoUrl?: string
 }
 
 const team: Member[] = [
   {
-    label: 'Founder',
     firstName: 'Amanda',
     lastName: 'Maximo',
-    role: 'Creative Director · Design & UX',
     initials: 'AM',
     photoUrl: '/amanda.png',
   },
   {
-    label: 'Co-founder',
     firstName: 'Agatha',
     lastName: 'Selbach',
-    role: 'Engineering · Development & Infrastructure',
     initials: 'AS',
     photoUrl: '/agatha.png',
   },
 ]
 
-export function TeamSection() {
+export function TeamSection({ copy }: { copy: SiteContent['team'] }) {
   return (
     <section
       id="team"
@@ -49,14 +44,13 @@ export function TeamSection() {
       >
         <h2
           style={{ fontFamily: 'var(--font-display)' }}
-          className="col-span-12 text-[12vw] leading-[0.95] tracking-[-0.01em] md:col-span-7 md:text-[5vw] lg:text-[5.5rem]"
+          className="col-span-12 text-[10.5vw] leading-[0.95] tracking-[-0.01em] md:col-span-7 md:text-[4.5vw] lg:text-[4.7rem]"
         >
-          THE PEOPLE <br />
-          BEHIND <span style={{ color: ACCENT }}>CORA.</span>
+          {copy.titleLine1} <br />
+          {copy.titleLine2} <span style={{ color: ACCENT }}>{copy.titleAccent}</span>
         </h2>
         <p className="col-span-12 max-w-sm self-end text-[15px] leading-[1.5] text-[#0A0A0A]/80 md:col-span-5 md:text-base">
-          Two co-founders bridging design and engineering. Every idea ships
-          with both feeling and craft.
+          {copy.description}
         </p>
       </motion.div>
 
@@ -96,18 +90,18 @@ export function TeamSection() {
             {/* Text */}
             <div className="col-span-3 flex flex-col justify-end pb-1 sm:col-span-3">
               <span className="mb-2 text-[11px] uppercase tracking-[0.18em] text-[#0A0A0A]/60">
-                / {m.label}
+                / {copy.members[i].label}
               </span>
               <h3
                 style={{ fontFamily: 'var(--font-display)' }}
-                className="text-[9vw] leading-[0.95] tracking-[-0.01em] transition-transform duration-300 ease-out group-hover:translate-x-1 md:text-[3vw] lg:text-[3.5rem]"
+                className="text-[8vw] leading-[0.95] tracking-[-0.01em] transition-transform duration-300 ease-out group-hover:translate-x-1 md:text-[2.7vw] lg:text-[3rem]"
               >
                 {m.firstName.toUpperCase()}
                 <br />
                 {m.lastName.toUpperCase()}
               </h3>
               <p className="mt-3 text-[13px] leading-[1.45] text-[#0A0A0A]/80 md:text-sm">
-                {m.role}
+                {copy.members[i].role}
               </p>
             </div>
           </motion.article>

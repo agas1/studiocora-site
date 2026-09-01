@@ -16,6 +16,11 @@ function isEmail(value: string): boolean {
 }
 
 export async function POST(request: Request) {
+  const contentLength = Number(request.headers.get('content-length') ?? '0')
+  if (contentLength > 12_000) {
+    return NextResponse.json({ error: 'Request is too large.' }, { status: 413 })
+  }
+
   let body: Payload
   try {
     body = (await request.json()) as Payload
@@ -23,13 +28,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  if (body.company && body.company.trim().length > 0) {
+  if (typeof body.company === 'string' && body.company.trim().length > 0) {
     return NextResponse.json({ ok: true })
   }
 
-  const name = body.name?.trim() ?? ''
-  const email = body.email?.trim() ?? ''
-  const message = body.message?.trim() ?? ''
+  const name = typeof body.name === 'string' ? body.name.trim() : ''
+  const email = typeof body.email === 'string' ? body.email.trim() : ''
+  const message = typeof body.message === 'string' ? body.message.trim() : ''
 
   if (!name || !email || !message) {
     return NextResponse.json(
@@ -40,6 +45,12 @@ export async function POST(request: Request) {
   if (!isEmail(email)) {
     return NextResponse.json(
       { error: 'Please provide a valid email address.' },
+      { status: 400 }
+    )
+  }
+  if (name.length > 120 || email.length > 320) {
+    return NextResponse.json(
+      { error: 'Name or email is too long.' },
       { status: 400 }
     )
   }

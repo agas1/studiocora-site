@@ -1,39 +1,45 @@
-import { ContactSection } from './ContactSection'
-import { TeamSection } from './TeamSection'
 import { Hero } from './home/Hero'
 import { ProofMarquee } from './home/ProofMarquee'
 import { AboutSection } from './home/AboutSection'
 import { ShowcaseMarquee } from './home/ShowcaseMarquee'
 import { NumbersSection } from './home/NumbersSection'
 import { ServicesSection } from './home/ServicesSection'
+import { ProjectsSection } from './home/ProjectsSection'
+import { FaqSection } from './home/FaqSection'
+import { CollaborationSection } from './home/CollaborationSection'
+import { JournalSection } from './home/JournalSection'
+import { ClosingCtaSection } from './home/ClosingCtaSection'
 import { Footer } from './layout/Footer'
+import { getContent, type Locale } from '@/content'
+import { ScrollSectionReveal } from './motion/ScrollSectionReveal'
 
-export function Landing() {
+export function Landing({ locale = 'pt' }: { locale?: Locale }) {
+  const copy = getContent(locale)
   return (
-    <main className="min-h-screen w-full bg-[#EDEDED] text-[#0A0A0A]">
-      <Hero />
+    <main className="min-h-screen w-full bg-white text-[#0A0A0A]">
+      <ScrollSectionReveal><Hero locale={locale} copy={copy.hero} /></ScrollSectionReveal>
 
-      <ProofMarquee />
+      <ScrollSectionReveal><ProofMarquee copy={copy.proof} /></ScrollSectionReveal>
 
-      <AboutSection />
+      <ScrollSectionReveal><AboutSection locale={locale} copy={copy.about} /></ScrollSectionReveal>
 
-      <ShowcaseMarquee />
+      <ScrollSectionReveal><ShowcaseMarquee /></ScrollSectionReveal>
 
-      <NumbersSection />
+      <ScrollSectionReveal><NumbersSection copy={copy.numbers} /></ScrollSectionReveal>
 
-      <ServicesSection />
+      <ScrollSectionReveal><ServicesSection copy={copy.services} /></ScrollSectionReveal>
 
-      <div className="mx-auto w-full max-w-[1440px] px-6 md:px-10">
-        <div id="work">
-          <TeamSection />
-        </div>
+      <ProjectsSection copy={copy.projects} locale={locale} />
 
-        <div id="contact">
-          <ContactSection />
-        </div>
+      <ScrollSectionReveal><FaqSection copy={copy.faq} /></ScrollSectionReveal>
 
-        <Footer />
-      </div>
+      <ScrollSectionReveal><CollaborationSection copy={copy.collaboration} /></ScrollSectionReveal>
+
+      <ScrollSectionReveal><JournalSection locale={locale} copy={copy.journal} /></ScrollSectionReveal>
+
+      <ScrollSectionReveal><ClosingCtaSection locale={locale} copy={copy.closingCta} /></ScrollSectionReveal>
+
+      <ScrollSectionReveal><Footer locale={locale} copy={copy.footer} /></ScrollSectionReveal>
     </main>
   )
 }

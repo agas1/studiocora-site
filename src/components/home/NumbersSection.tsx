@@ -1,32 +1,11 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import { animate, motion, useInView, useMotionValue, useReducedMotion, useTransform } from 'framer-motion'
+import type { SiteContent } from '@/content'
 
 const ease = [0.16, 1, 0.3, 1] as const
-const RED = '#FF3B30'
-
-const metrics = [
-  {
-    value: '7+',
-    label: 'Creative experience',
-    body: 'Years building identities, visual systems and creative experiences.',
-  },
-  {
-    value: '8+',
-    label: 'Years in technology',
-    body: 'Technology, infrastructure and digital products supporting real businesses.',
-  },
-  {
-    value: '4+',
-    label: 'Years in development',
-    body: 'Building websites, platforms and digital experiences from idea to production.',
-  },
-  {
-    value: '2',
-    label: 'Co-founders',
-    body: 'Design and engineering working together from strategy through execution.',
-  },
-]
+const RED = '#7473F5'
 
 function RollingMetric({
   value,
@@ -35,51 +14,58 @@ function RollingMetric({
   value: string
   index: number
 }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-80px' })
+  const reduceMotion = useReducedMotion()
+  const target = Number.parseInt(value, 10)
+  const suffix = value.replace(/\d+/g, '')
+  const startsAbove = index % 2 === 1
+  const count = useMotionValue(startsAbove ? target + 38 : 0)
+  const display = useTransform(count, (latest) => `${Math.round(latest)}${suffix}`)
+
+  useEffect(() => {
+    if (!isInView) return
+    if (reduceMotion) {
+      count.set(target)
+      return
+    }
+
+    const sequence = startsAbove
+      ? [target + 38, 0, target + 24, Math.max(0, target - 2), target]
+      : [0, target + 34, Math.max(0, target - 2), target + 18, target]
+
+    const controls = animate(count, sequence, {
+      duration: 2.4,
+      delay: index * 0.12,
+      times: [0, 0.32, 0.58, 0.8, 1],
+      ease: 'easeInOut',
+    })
+    return () => controls.stop()
+  }, [count, index, isInView, reduceMotion, startsAbove, target])
+
   return (
-    <div className="relative overflow-hidden">
+    <div ref={ref} className="relative overflow-hidden">
       <motion.div
-        initial={{
-          y: 70,
-          opacity: 0,
-          filter: 'blur(8px)',
-        }}
-        whileInView={{
-          y: [70, -32, 22, -10, 0],
-          opacity: [0, 1, 1, 1, 1],
-          filter: [
-            'blur(8px)',
-            'blur(3px)',
-            'blur(2px)',
-            'blur(1px)',
-            'blur(0px)',
-          ],
-        }}
-        viewport={{
-          once: true,
-          margin: '-80px',
-        }}
-        transition={{
-          duration: 1.3,
-          delay: index * 0.12,
-          ease,
-          times: [0, 0.35, 0.6, 0.82, 1],
-        }}
+        initial={{ y: startsAbove ? -28 : 28, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.9, delay: index * 0.1, ease }}
         className="
           text-[58px]
           font-semibold
           leading-none
           tracking-[-0.07em]
-          md:text-[72px]
-          lg:text-[84px]
+          md:text-[64px]
+          lg:text-[72px]
         "
       >
-        {value}
+        <motion.span>{display}</motion.span>
       </motion.div>
     </div>
   )
 }
 
-export function NumbersSection() {
+export function NumbersSection({ copy }: { copy: SiteContent['numbers'] }) {
   return (
     <section
             className="
@@ -87,9 +73,9 @@ export function NumbersSection() {
               w-full
               max-w-[1440px]
               px-6
-              py-20
+              py-16
               md:px-10
-              md:py-28
+              md:py-20
             "
           >
     
@@ -120,23 +106,25 @@ export function NumbersSection() {
                   style={{ backgroundColor: RED }}
                 />
     
-                By the numbers
+                {copy.label}
               </div>
     
             </motion.div>
     
             <div className="grid grid-cols-2 gap-x-7 gap-y-14 md:grid-cols-4">
     
-              {metrics.map((metric, index) => (
+              {copy.metrics.map((metric, index) => (
     
                 <motion.div
                   key={metric.label}
                   initial={{
                     opacity: 0,
-                    y: 18,
+                    x: index % 2 === 0 ? -22 : 22,
+                    y: 10,
                   }}
                   whileInView={{
                     opacity: 1,
+                    x: 0,
                     y: 0,
                   }}
                   viewport={{

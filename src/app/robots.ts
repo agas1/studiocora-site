@@ -1,14 +1,14 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://usestudiocora.com";
-
   return {
     rules: {
       userAgent: "*",
-      allow: "/",
+      allow: ["/pt/sobre", "/pt/contato", "/en/studio", "/en/contact"],
+      disallow: "/",
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   };
 }
