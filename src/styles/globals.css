@@ -62,3 +62,16 @@ html:has(.maintenance-page) {
     font-size: clamp(17px, 0.75vw, 20px);
   }
 }
+
+/* Telas de toque não têm hover: a segunda cópia do rótulo, que existe só para
+   o efeito de rolagem dos botões, aparece empilhada sob a primeira. Some com
+   ela e trava a rolagem, para o hover "grudado" do toque não esvaziar o botão. */
+@media (hover: none) {
+  .rolling-text__ghost {
+    display: none;
+  }
+
+  .rolling-text__face {
+    transform: none;
+  }
+}

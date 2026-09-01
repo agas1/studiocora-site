@@ -2,10 +2,13 @@
 
 import { useRef, type ReactNode } from 'react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { useMinWidth } from '@/lib/useMinWidth'
 
 export function HorizontalScrollDrift({ children, direction = 'left' }: { children: ReactNode; direction?: 'left' | 'right' }) {
   const ref = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
+  // Em uma coluna só, deslocar 120px joga o cartão para fora da tela.
+  const isWide = useMinWidth(768)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
@@ -15,7 +18,7 @@ export function HorizontalScrollDrift({ children, direction = 'left' }: { childr
 
   return (
     <div ref={ref} className="overflow-hidden">
-      <motion.div style={reduceMotion ? undefined : { x: smoothX }}>
+      <motion.div style={reduceMotion || !isWide ? undefined : { x: smoothX }}>
         {children}
       </motion.div>
     </div>

@@ -113,9 +113,9 @@ export function ContactSection({ copy, locale = 'pt' }: { copy: SiteContent['con
             ['Brazil', 'Current operation · working with companies across the country'],
             ['United States', 'New office coming soon · location to be announced'],
           ]).map(([title, description]) => (
-            <div key={title} className="group/office grid gap-4 border-b border-dashed border-white/15 py-7 transition-opacity duration-300 group-hover/offices:opacity-30 hover:!opacity-100 md:grid-cols-12 md:items-center md:py-9">
-              <h2 className="origin-left text-[clamp(2.2rem,4vw,4.5rem)] leading-none tracking-[-0.05em] transition-transform duration-500 ease-out group-hover/office:translate-x-5 group-hover/office:scale-[1.035] md:col-span-8 md:group-hover/office:translate-x-8">{title}</h2>
-              <p className="max-w-sm text-sm leading-6 text-white/65 transition-transform duration-500 ease-out group-hover/office:-translate-x-2 md:col-span-4 md:justify-self-end md:text-base">{description}</p>
+            <div key={title} className="group/office grid gap-4 border-b border-dashed border-white/15 py-7 transition-opacity duration-300 md:group-hover/offices:opacity-30 md:hover:!opacity-100 md:grid-cols-12 md:items-center md:py-9">
+              <h2 className="origin-left text-[clamp(2.2rem,4vw,4.5rem)] leading-none tracking-[-0.05em] transition-transform duration-500 ease-out md:group-hover/office:translate-x-5 md:group-hover/office:scale-[1.035] md:col-span-8 md:group-hover/office:translate-x-8">{title}</h2>
+              <p className="max-w-sm text-sm leading-6 text-white/65 transition-transform duration-500 ease-out md:group-hover/office:-translate-x-2 md:col-span-4 md:justify-self-end md:text-base">{description}</p>
             </div>
           ))}
         </div>

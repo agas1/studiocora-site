@@ -60,7 +60,7 @@ export function Footer({ locale, copy }: { locale: Locale; copy: SiteContent['fo
         <div className="mx-auto flex min-h-[568px] max-w-[1440px] flex-col md:min-h-[600px]">
           <div className="grid grid-cols-12 gap-x-8 gap-y-14">
             <motion.div initial={{ opacity: 0, x: -28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }} className="col-span-12 md:col-span-6">
-              <h2 className="max-w-[540px] text-[clamp(2rem,2.8vw,3rem)] font-bold leading-[1.05] tracking-[-0.045em]">{copy.newsletterLine1}<br />{copy.newsletterLine2}</h2>
+              <h2 className="max-w-[540px] text-[clamp(1.75rem,2.8vw,3rem)] font-bold leading-[1.05] tracking-[-0.045em]">{copy.newsletterLine1}<br />{copy.newsletterLine2}</h2>
               <form onSubmit={subscribe} className="mt-7 flex min-h-[60px] max-w-[560px] items-center rounded-full border border-white p-1 transition-[border-radius] duration-200 ease-out hover:rounded-[16px] focus-within:rounded-[16px]">
                 <label htmlFor="footer-email" className="sr-only">{copy.emailPlaceholder}</label>
                 <input id="footer-email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder={copy.emailPlaceholder} className="min-w-0 flex-1 bg-transparent px-5 py-2 text-sm font-bold text-white outline-none focus-visible:outline-none placeholder:font-bold placeholder:text-white" />
@@ -79,11 +79,11 @@ export function Footer({ locale, copy }: { locale: Locale; copy: SiteContent['fo
                 ))}
               </div>
             </motion.div>
-            <motion.nav initial={{ opacity: 0, x: 28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.85, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} aria-label={copy.navigationLabel} className="col-span-12 grid grid-cols-2 gap-8 md:col-span-5 md:col-start-8 md:grid-cols-3">
-                  {columns.map((column, index) => <div key={index} className="space-y-3 border-l border-white/20 pl-6">{column.map((link) => <Link key={link.label} href={link.href} className="block w-fit text-base text-white transition-colors duration-200 hover:text-[#6966F0] md:text-lg">{link.label}</Link>)}</div>)}
+            <motion.nav initial={{ opacity: 0, x: 28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.85, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} aria-label={copy.navigationLabel} className="col-span-12 grid grid-cols-2 gap-x-4 gap-y-8 md:col-span-5 md:col-start-8 md:grid-cols-3 md:gap-8">
+                  {columns.map((column, index) => <div key={index} className="space-y-3 border-l border-white/20 pl-4 md:pl-6">{column.map((link) => <Link key={link.label} href={link.href} className="block w-fit text-base text-white transition-colors duration-200 hover:text-[#6966F0] md:text-lg">{link.label}</Link>)}</div>)}
             </motion.nav>
           </div>
-          <p aria-label="Studio Cora" className="mt-auto whitespace-nowrap text-center text-[clamp(3.8rem,12.5vw,12rem)] font-bold leading-[0.8] tracking-[-0.075em]">STUDIO CORA</p>
+          <p aria-label="Studio Cora" className="mt-auto whitespace-nowrap text-center text-[clamp(2.2rem,12.5vw,12rem)] font-bold leading-[0.8] tracking-[-0.075em]">STUDIO CORA</p>
           <div className="mt-9 flex flex-col justify-between gap-4 border-t border-white/20 pt-5 text-sm text-white md:flex-row">
             <p>Studio Cora © {new Date().getFullYear()}. {copy.rights} {copy.developedBy}</p>
             <div className="flex flex-wrap gap-x-6 gap-y-2"><a href="mailto:hello@usestudiocora.com" className="transition-colors duration-200 hover:text-[#6966F0]">hello@usestudiocora.com</a><Link href={contactPath} className="transition-colors duration-200 hover:text-[#6966F0]">{copy.contactLabel}</Link></div>

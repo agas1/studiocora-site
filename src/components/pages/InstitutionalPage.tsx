@@ -96,7 +96,7 @@ function StudioTeam({ locale, copy }: { locale: Locale; copy: ReturnType<typeof 
   ]
 
   return (
-    <section aria-labelledby="studio-team-title" className="mx-3 rounded-[26px] bg-[#090909] px-6 py-20 text-white md:mx-4 md:px-10 md:py-28">
+    <section aria-labelledby="studio-team-title" className="mx-3 rounded-[26px] bg-[#090909] px-5 py-14 text-white md:mx-4 md:px-10 md:py-28">
       <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#0A0A0A]">
         <span aria-hidden="true" className="flex size-4 items-center justify-center bg-[#6966F0] text-[11px] leading-none text-white">+</span>
         {isPt ? 'Equipe' : 'Team'}
@@ -119,9 +119,9 @@ function StudioTeam({ locale, copy }: { locale: Locale; copy: ReturnType<typeof 
               <p className="mt-auto pt-16 text-lg text-white/40">{isPt ? 'Pessoas na equipe.' : 'People on the team.'}</p>
             </article>
             {portraits.slice(0, 3).map((member, index) => (
-              <article key={`top-${member.name}-${index}`} className="group relative aspect-square overflow-hidden rounded-[18px] bg-[#E8E8E8]">
+              <article key={`top-${member.name}-${index}`} className={`group relative aspect-square overflow-hidden rounded-[18px] bg-[#E8E8E8] ${index > 1 ? 'hidden sm:block' : ''}`}>
                 <Image src={member.image} alt={index < 2 ? member.name : ''} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw" className="object-cover object-top" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 px-5 text-center text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100">
+                <div className="absolute inset-x-0 bottom-0 flex flex-col items-start bg-gradient-to-t from-black/85 via-black/45 to-transparent px-4 pb-4 pt-12 text-left text-white transition-opacity duration-300 sm:inset-0 sm:items-center sm:justify-center sm:bg-black/70 sm:bg-none sm:px-5 sm:pb-0 sm:pt-0 sm:text-center sm:opacity-0 sm:backdrop-blur-sm sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
                   <h3 className="text-lg font-semibold">{member.name}</h3>
                   <p className="mt-1 text-sm text-white/75">{member.role}</p>
                 </div>
@@ -133,16 +133,16 @@ function StudioTeam({ locale, copy }: { locale: Locale; copy: ReturnType<typeof 
         <HorizontalScrollDrift direction="right">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             {portraits.slice(3).map((member, index) => (
-              <article key={`bottom-${member.name}-${index}`} className="group relative aspect-square overflow-hidden rounded-[18px] bg-[#E8E8E8]">
+              <article key={`bottom-${member.name}-${index}`} className="group relative aspect-square hidden overflow-hidden rounded-[18px] bg-[#E8E8E8] sm:block">
                 <Image src={member.image} alt="" fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw" className="object-cover object-top" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 px-5 text-center text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100">
+                <div className="absolute inset-x-0 bottom-0 flex flex-col items-start bg-gradient-to-t from-black/85 via-black/45 to-transparent px-4 pb-4 pt-12 text-left text-white transition-opacity duration-300 sm:inset-0 sm:items-center sm:justify-center sm:bg-black/70 sm:bg-none sm:px-5 sm:pb-0 sm:pt-0 sm:text-center sm:opacity-0 sm:backdrop-blur-sm sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
                   <h3 className="text-lg font-semibold">{member.name}</h3>
                   <p className="mt-1 text-sm text-white/75">{member.role}</p>
                 </div>
               </article>
             ))}
-            <article className="flex min-h-[300px] flex-col rounded-[18px] bg-[#1B1B1B] p-6 sm:col-span-2 lg:min-h-0">
-              <p className="max-w-xl text-base leading-7 text-white/60">{copy.description}</p>
+            <article className="flex min-h-[160px] flex-col sm:min-h-[300px] rounded-[18px] bg-[#1B1B1B] p-6 sm:col-span-2 lg:min-h-0">
+              <p className="hidden max-w-xl text-base leading-7 text-white/60 sm:block">{copy.description}</p>
               <a href={isPt ? '/pt/contato' : '/en/contact'} className="mt-auto inline-flex w-fit rounded-full bg-white px-5 py-3 text-sm font-bold text-[#0A0A0A]">
                 {isPt ? 'Fale com a equipe ↗' : 'Talk to the team ↗'}
               </a>
