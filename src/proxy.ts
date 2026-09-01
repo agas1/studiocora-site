@@ -12,6 +12,10 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const normalized = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname
 
+  if (normalized === '/') {
+    return NextResponse.redirect(new URL('/pt/sobre', request.url))
+  }
+
   if (PUBLIC_ROUTES.has(normalized) || normalized.startsWith('/api/contact')) {
     return NextResponse.next()
   }
