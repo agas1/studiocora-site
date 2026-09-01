@@ -17,7 +17,7 @@ export function ClosingCtaSection({ locale, copy, showTopBorder = true, compact 
           {copy.label}
         </motion.p>
 
-        <h2 id="closing-cta-title" className="mt-8 text-[clamp(2rem,5vw,5.5rem)] leading-[1.02] tracking-[-0.055em]">
+        <h2 id="closing-cta-title" className="mt-8 text-[clamp(2.6rem,7vw,120px)] leading-[1.02] tracking-[-0.055em]">
           <span className="block">{copy.titleLine1}</span>
           <span className="block whitespace-nowrap">{copy.titleLine2}</span>
           <span className="block">{copy.titleLine3}</span>

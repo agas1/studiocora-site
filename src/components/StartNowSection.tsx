@@ -22,7 +22,7 @@ export function StartNowSection({ locale = 'pt', href = '#contact', compact = fa
           {locale === 'pt' ? 'Comece agora' : 'Start now'}
           <span aria-hidden="true" className="text-[#6966F0]">✦</span>
         </div>
-        <h2 aria-label={locale === 'pt' ? 'Transforme suas ideias hoje mesmo' : 'Transform your ideas today'} className="mt-5 max-w-[900px] text-[clamp(2rem,5vw,5.5rem)] leading-[1.02] tracking-[-0.055em]">
+        <h2 aria-label={locale === 'pt' ? 'Transforme suas ideias hoje mesmo' : 'Transform your ideas today'} className="mt-5 max-w-[900px] text-[clamp(2.6rem,7vw,120px)] leading-[1.02] tracking-[-0.055em]">
           {locale === 'pt' ? (
             <><span className="block">Transforme</span><span className="block whitespace-nowrap">suas ideias hoje</span><span className="block">mesmo</span></>
           ) : (
