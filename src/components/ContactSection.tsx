@@ -108,10 +108,10 @@ export function ContactSection({ copy, locale = 'pt' }: { copy: SiteContent['con
         <div className="group/offices mt-12 border-t border-dashed border-white/15">
           {(locale === 'pt' ? [
             ['Brasil', 'Operação atual · atendimento a empresas em todo o país'],
-            ['Estados Unidos', 'Nova sede em breve · localização será anunciada'],
+            ['Estados Unidos', 'Operação atual · atendimento a empresas em todo o país'],
           ] : [
             ['Brazil', 'Current operation · working with companies across the country'],
-            ['United States', 'New office coming soon · location to be announced'],
+            ['United States', 'Current operation · working with companies across the country'],
           ]).map(([title, description]) => (
             <div key={title} className="group/office grid gap-4 border-b border-dashed border-white/15 py-7 transition-opacity duration-300 md:group-hover/offices:opacity-30 md:hover:!opacity-100 md:grid-cols-12 md:items-center md:py-9">
               <h2 className="origin-left text-[clamp(2.2rem,4vw,4.5rem)] leading-none tracking-[-0.05em] transition-transform duration-500 ease-out md:group-hover/office:translate-x-5 md:group-hover/office:scale-[1.035] md:col-span-8 md:group-hover/office:translate-x-8">{title}</h2>
