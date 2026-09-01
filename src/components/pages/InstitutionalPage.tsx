@@ -104,7 +104,7 @@ function StudioTeam({ locale, copy }: { locale: Locale; copy: ReturnType<typeof 
 
       <div className="mt-8 grid grid-cols-12 items-end gap-x-8 gap-y-8">
         <h2 id="studio-team-title" className="col-span-12 max-w-[620px] text-[clamp(2.5rem,4.2vw,4.75rem)] leading-[0.96] tracking-[-0.05em] md:col-span-7">
-          {isPt ? <>As pessoas<br />por trás da<br />Studio Cora</> : <>The people<br />behind<br />Studio Cora</>}
+          {isPt ? <>As fundadoras<br />por trás da<br />Studio Cora</> : <>The people<br />behind<br />Studio Cora</>}
         </h2>
         <p className="col-span-12 max-w-sm text-[15px] leading-7 text-white/55 md:col-span-4 md:col-start-9 md:text-base">
           {copy.description}
