@@ -2,9 +2,9 @@ import { Landing } from '@/components/Landing'
 import { localizedMetadata } from '@/lib/seo'
 
 export const metadata = localizedMetadata({
-  title: 'Studio Cora | Branding, Design e Gestão de Redes Sociais',
+  title: 'Studio Cora | Estúdio de Design em Porto Alegre',
   description:
-    'Estúdio criativo especializado em branding, gestão de redes sociais, identidade visual, direção criativa e desenvolvimento web.',
+    'Estúdio de design e tecnologia em Porto Alegre especializado em branding, gestão de redes sociais, identidade visual e desenvolvimento web para empresas de todo o Brasil.',
   canonical: '/pt', pt: '/pt', en: '/en', xDefault: '/',
 })
 

@@ -1,4 +1,13 @@
 import type { Locale } from './index'
+import type { PortableTextBlock } from '@portabletext/types'
+
+export type PortableTextImage = {
+  _type: 'contentImage'
+  _key: string
+  url: string
+  alt: string
+  caption?: string
+}
 
 export type ArticleSection = {
   heading: string
@@ -11,9 +20,14 @@ export type Article = {
   alternateSlug: string
   title: string
   seoTitle: string
+  seoDescription?: string
   description: string
   category: string
   date: string
+  author?: string
+  coverImage?: string
+  coverImageAlt?: string
+  body?: Array<PortableTextBlock | PortableTextImage>
   intro: string[]
   sections: ArticleSection[]
   relatedServices: string[]

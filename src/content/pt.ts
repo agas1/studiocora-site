@@ -4,7 +4,7 @@ export const pt = {
     studio: 'Estúdio',
     work: 'Projetos',
     pages: 'Páginas',
-    insights: 'Insights',
+    insights: 'Blog',
     contact: 'Contato',
     cta: 'Agende uma conversa',
   },

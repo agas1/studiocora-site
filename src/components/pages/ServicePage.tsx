@@ -4,14 +4,32 @@ import { getService, getServices, type ServicePageData } from '@/content/pages'
 import { getArticle } from '@/content/articles'
 import { EditorialHero, PageShell, PrimaryCta } from './PageShell'
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { siteUrl } from '@/lib/seo'
 
 export function ServicePage({ locale, service }: { locale: Locale; service: ServicePageData }) {
+  const canonicalPath = `${locale === 'pt' ? '/pt/servicos' : '/en/services'}/${service.slug}`
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${siteUrl}${canonicalPath}#service`,
+    name: service.title,
+    description: service.seoDescription,
+    url: `${siteUrl}${canonicalPath}`,
+    provider: { '@id': `${siteUrl}/#organization` },
+    areaServed: [
+      { '@type': 'City', name: 'Porto Alegre' },
+      { '@type': 'Country', name: 'Brasil' },
+    ],
+  }
+
   const labels = locale === 'pt'
     ? { problems: 'Para quem este serviço faz sentido', included: 'O que pode estar incluído', process: 'Como funciona o processo', differences: 'Por que trabalhar com a Studio Cora', cases: 'Portfolio', casesBody: 'Conheça a área de projetos da Studio Cora. Novos cases serão publicados somente com contexto, resultados verificáveis e autorização.', faq: 'Perguntas frequentes', related: 'Continue explorando', articles: 'Conteúdos relacionados', portfolio: 'Ver portfolio' }
     : { problems: 'Who this service is for', included: 'What may be included', process: 'How the process works', differences: 'Why work with Studio Cora', cases: 'Work', casesBody: 'Explore Studio Cora’s work. New case studies will only be published with context, verified outcomes and permission.', faq: 'Frequently asked questions', related: 'Keep exploring', articles: 'Related insights', portfolio: 'View our work' }
 
   return (
     <PageShell locale={locale} languageHrefs={{ pt: `/pt/servicos/${locale === 'pt' ? service.slug : service.alternateSlug}`, en: `/en/services/${locale === 'en' ? service.slug : service.alternateSlug}` }}>
+      <JsonLd data={serviceSchema} />
       <Breadcrumbs items={[{ label: locale === 'pt' ? 'Início' : 'Home', href: locale === 'pt' ? '/pt' : '/en' }, { label: locale === 'pt' ? 'Serviços' : 'Services', href: locale === 'pt' ? '/pt#services' : '/en#services' }]} current={service.title} />
       <EditorialHero eyebrow={service.eyebrow} title={service.title} description={service.description} />
       <section className="bg-[#0A0A0A] py-20 text-white md:py-28">

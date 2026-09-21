@@ -9,7 +9,7 @@ const projectImages = [
   '/project-zentra-v2.png',
   '/project-alba.png',
   '/project-orbe.png',
-  '/project-nexo.png',
+  '/cases1/mockup1.png',
   '/project-zentra.png',
 ] as const
 
@@ -19,8 +19,9 @@ export function WorkShowcase({ locale, copy, proof }: { locale: Locale; copy: Si
   const projects = [
     ...copy.items,
     {
-      title: isPt ? 'Projeto 04' : 'Project 04',
-      category: isPt ? 'Identidade visual' : 'Visual identity',
+      title: 'GD Law',
+      category: isPt ? 'Direção criativa · Apresentação comercial' : 'Creative direction · Commercial presentation',
+      href: isPt ? '/pt/portfolio/gd-law' : '/en/work/gd-law',
     },
     {
       title: isPt ? 'Projeto 05' : 'Project 05',
@@ -69,6 +70,11 @@ export function WorkShowcase({ locale, copy, proof }: { locale: Locale; copy: Si
                   <p className="max-w-[55%] text-right text-xs font-semibold uppercase leading-5 tracking-[0.08em] text-[#0A0A0A]/50 md:text-sm">{project.category}</p>
                 </div>
               </article>
+              {'href' in project && (
+                <Link href={project.href} className={'mt-4 inline-flex text-sm font-semibold text-[#6966F0]'}>
+                  {isPt ? 'Ver projeto ↗' : 'View project ↗'}
+                </Link>
+              )}
             </div>
           ))}
         </div>

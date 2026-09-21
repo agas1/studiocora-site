@@ -24,13 +24,15 @@ const organizationSchema = {
 
   address: {
     '@type': 'PostalAddress',
+    addressLocality: 'Porto Alegre',
+    addressRegion: 'RS',
     addressCountry: 'BR',
   },
 
-  areaServed: {
-    '@type': 'Country',
-    name: 'Brasil',
-  },
+  areaServed: [
+    { '@type': 'City', name: 'Porto Alegre' },
+    { '@type': 'Country', name: 'Brasil' },
+  ],
 
   availableLanguage: [
     {

@@ -1,16 +1,15 @@
 import type { Locale } from '@/content'
 import { getContent } from '@/content'
-import { institutional } from '@/content/pages'
 import { ContactSection } from '@/components/ContactSection'
-import { EditorialHero, PageShell } from './PageShell'
-import { ServiceDirectory } from './ServicePage'
+import { PageShell } from './PageShell'
 import { ArticleList } from '@/components/blog/ArticleList'
-import { getArticles } from '@/content/articles'
+import { getBlogArticles } from '@/sanity/lib/articles'
 import { WorkShowcase } from './WorkShowcase'
 import { ClosingCtaSection } from '@/components/home/ClosingCtaSection'
 import Image from 'next/image'
 import { Header } from '@/components/layout/Header'
 import { HorizontalScrollDrift } from '@/components/motion/HorizontalScrollDrift'
+import { Reveal } from '@/components/motion/Reveal'
 
 function StudioHero({ locale }: { locale: Locale }) {
   const isPt = locale === 'pt'
@@ -176,20 +175,72 @@ export function WorkPage({ locale }: { locale: Locale }) {
   )
 }
 
-export function InsightsPage({ locale }: { locale: Locale }) {
-  const page = institutional[locale].insights
-  const articles = getArticles(locale)
+function BlogHero({ locale }: { locale: Locale }) {
+  const isPt = locale === 'pt'
+
   return (
-    <PageShell locale={locale} languageHrefs={{ pt: '/pt/blog', en: '/en/insights' }}>
-      <EditorialHero {...page} />
+    <div className="px-3 pb-16 pt-3 md:px-4 md:pb-24 md:pt-4">
+      <section
+        aria-labelledby="blog-page-title"
+        className="relative flex min-h-[560px] overflow-hidden rounded-[26px] bg-[#08080c] px-6 pb-12 pt-6 text-white md:min-h-[610px] md:px-9 md:pb-16 md:pt-8"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-90"
+          style={{
+            background: [
+              'radial-gradient(ellipse at 18% 8%, rgba(105,102,240,.72) 0%, rgba(55,52,153,.36) 24%, transparent 50%)',
+              'radial-gradient(ellipse at 88% 72%, rgba(105,102,240,.55) 0%, rgba(35,33,105,.32) 27%, transparent 55%)',
+              'linear-gradient(125deg, #08080c 8%, #171532 45%, #09090e 76%)',
+            ].join(','),
+          }}
+        />
+        <div aria-hidden="true" className="absolute -left-[8%] top-[30%] h-40 w-[70%] -rotate-12 rounded-full bg-[#7774ff]/20 blur-3xl" />
+        <div aria-hidden="true" className="absolute -right-[12%] bottom-[10%] h-52 w-[65%] -rotate-12 rounded-full bg-[#6966f0]/25 blur-3xl" />
+
+        <div className="relative z-10 flex w-full flex-col">
+          <Header locale={locale} languageHrefs={{ pt: '/pt/blog', en: '/en/insights' }} variant="dark" />
+
+          <div className="mx-auto flex flex-1 flex-col items-center justify-center pb-10 pt-20 text-center md:pb-14 md:pt-24">
+            <Reveal>
+              <p className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#0A0A0A]">
+                <span aria-hidden="true" className="flex size-4 items-center justify-center bg-[#6966F0] text-[11px] leading-none text-white">+</span>
+                {isPt ? 'Blog' : 'Insights'}
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h1
+                id="blog-page-title"
+                className="mt-8 max-w-[1100px] text-[clamp(2.9rem,6vw,6.8rem)] leading-[0.98] tracking-[-0.065em]"
+              >
+                {isPt ? 'Ideias para marcas que querem significar mais.' : 'Ideas for brands that want to mean more.'}
+              </h1>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+export async function InsightsPage({ locale }: { locale: Locale }) {
+  const copy = getContent(locale)
+  const articles = await getBlogArticles(locale)
+  return (
+    <PageShell locale={locale} languageHrefs={{ pt: '/pt/blog', en: '/en/insights' }} hideHeader>
+      <BlogHero locale={locale} />
       <section className="mx-auto max-w-[1440px] px-6 pb-24 md:px-10">
-        <div className="grid gap-6 border-t border-[#0A0A0A]/25 py-10 md:grid-cols-2">
-          <h2 className="text-3xl">{locale === 'pt' ? 'Conteúdo para decisões mais claras' : 'Insights for clearer decisions'}</h2>
-          <p className="leading-7 text-[#0A0A0A]/65">{page.description}</p>
+        <div className="pb-8">
+          <Reveal direction="left">
+            <h2 className="inline-flex items-center gap-2 rounded-full bg-[#F1F1F1] px-4 py-2 text-[10px] font-bold uppercase tracking-[0.14em]">
+              <span aria-hidden="true" className="flex size-4 items-center justify-center bg-[#6966F0] text-[11px] leading-none text-white">+</span>
+              {locale === 'pt' ? 'Todos os artigos' : 'All articles'}
+            </h2>
+          </Reveal>
         </div>
         <ArticleList articles={articles} basePath={locale === 'pt' ? '/pt/blog' : '/en/insights'} />
-        <ServiceDirectory locale={locale} />
       </section>
+      <ClosingCtaSection locale={locale} copy={copy.closingCta} showTopBorder={false} />
     </PageShell>
   )
 }

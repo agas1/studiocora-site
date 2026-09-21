@@ -60,6 +60,8 @@ Prós: descoberta mais rápida, fronteiras explícitas e melhor escala para nova
 - definir comportamento de erro, timeout, spam e observabilidade antes de expandir o formulário;
 - não introduzir CMS antes de mapear frequência editorial, responsáveis e fluxo de aprovação.
 
+**Aprovado em 2026-09-02:** Sanity é o CMS editorial do blog, incorporado em `/admin` e protegido pela autenticação do projeto Sanity. Artigos publicados são consumidos no servidor, com cache e revalidação; rascunhos são acessíveis apenas no modo de preview. O conteúdo local permanece como fallback durante a migração. Configuração e operação estão documentadas em [`docs/cms.md`](cms.md).
+
 ## Internacionalização
 
 **Aprovado em 2026-08-19:** `/` preserva a Home original, enquanto `/pt` e `/en` usam root layouts próprios para emitir `lang="pt-BR"` e `lang="en"` diretamente no HTML. Conteúdo e componentes são compartilhados; URLs equivalentes são declaradas por canonical e `hreflang`.
@@ -81,6 +83,8 @@ Evitar páginas traduzidas parcialmente ou alternates apontando para conteúdo n
 **Aprovado em 2026-08-31:** durante a finalização do site, somente `/pt/sobre` e `/pt/contato` ficam públicas. A raiz `/` redireciona temporariamente para `/pt/sobre`; as demais rotas de páginas são reescritas para `/manutencao`. Arquivos estáticos, metadata técnica e a API de contato permanecem disponíveis. A liberação é centralizada em `src/proxy.ts` para permitir reversão simples no lançamento completo.
 
 O sitemap lista apenas a raiz e as duas páginas públicas. O `robots.txt` impede o rastreamento das demais rotas durante esse período.
+
+**Aprovado em 2026-09-02:** o bloqueio temporário foi encerrado. As rotas normais em `/`, `/pt` e `/en` voltam a responder diretamente, sem redirecionamento global para `/manutencao`. A página `/manutencao` permanece disponível, mas fora do sitemap e bloqueada para indexação. O sitemap volta a listar as páginas institucionais e de serviços; artigos e cases continuam condicionados à validação editorial prevista em `docs/seo.md`.
 
 - limitar JavaScript enviado ao cliente;
 - usar `next/image` e `next/font` quando adequados;

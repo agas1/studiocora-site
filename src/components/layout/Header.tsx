@@ -168,7 +168,7 @@ export function Header({ locale, languageHrefs, variant = 'dark', compactLogo = 
   const contentItems = isPt
     ? [
         {
-          label: 'Insights',
+          label: 'Blog',
           href: '/pt/blog',
           preview: '/hero2.jpg',
         },
