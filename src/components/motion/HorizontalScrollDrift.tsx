@@ -1,7 +1,8 @@
 'use client'
 
 import { useRef, type ReactNode } from 'react'
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { useReducedMotion } from '@/lib/useReducedMotion'
 import { useMinWidth } from '@/lib/useMinWidth'
 
 export function HorizontalScrollDrift({ children, direction = 'left' }: { children: ReactNode; direction?: 'left' | 'right' }) {

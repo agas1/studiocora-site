@@ -46,7 +46,7 @@ function ActiveServiceCard({ service }: { service: ServiceItem }) {
 }
 
 export function ServicesSection({ copy }: { copy: SiteContent['services'] }) {
-  const [activeService, setActiveService] = useState<number | null>(null)
+  const [activeService, setActiveService] = useState<number | null>(0)
   const services = copy.items.map((service, index) => ({ ...service, image: serviceImages[index] }))
 
   return (
@@ -158,7 +158,7 @@ export function ServicesSection({ copy }: { copy: SiteContent['services'] }) {
               className="
                 mt-12
                 grid grid-cols-12
-                gap-x-10
+                gap-x-4 md:gap-x-10
               "
             >
     
@@ -166,7 +166,6 @@ export function ServicesSection({ copy }: { copy: SiteContent['services'] }) {
     
               <div
                 className="col-span-12 md:col-span-7"
-                onMouseLeave={() => setActiveService(null)}
               >
     
                 {services.map((service, index) => {
@@ -180,7 +179,6 @@ export function ServicesSection({ copy }: { copy: SiteContent['services'] }) {
                       aria-pressed={isActive}
                       onMouseEnter={() => setActiveService(index)}
                       onFocus={() => setActiveService(index)}
-                      onBlur={() => setActiveService(null)}
                       onClick={() => setActiveService(index)}
                       initial={{ opacity: 0, y: 18 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -242,6 +240,7 @@ export function ServicesSection({ copy }: { copy: SiteContent['services'] }) {
                             font-semibold
                             leading-[0.95]
                             tracking-[-0.055em]
+                            [overflow-wrap:anywhere]
                           "
                         >
                           {service.title}

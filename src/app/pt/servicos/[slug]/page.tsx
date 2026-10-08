@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const service = getService('pt', slug)
   if (!service) return {}
-  return localizedMetadata({ title: service.seoTitle, description: service.seoDescription, canonical: `/pt/servicos/${service.slug}`, pt: `/pt/servicos/${service.slug}`, en: `/en/services/${service.alternateSlug}` })
+  return { ...localizedMetadata({ title: service.seoTitle, description: service.seoDescription, canonical: `/pt/servicos/${service.slug}`, pt: `/pt/servicos/${service.slug}`, en: `/en/services/${service.alternateSlug}` }), robots: { index: false, follow: true } }
 }
 
 export default async function PortugueseService({ params }: { params: Promise<{ slug: string }> }) {

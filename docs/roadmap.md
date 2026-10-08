@@ -75,3 +75,11 @@ Priorizar trabalho que melhore clareza da oferta, qualidade dos leads, evidênci
 ## Decisões recentes
 
 - **Aprovado (2026-08-28):** reformulação de `/pt/portfolio` e `/en/work` com apresentação editorial, faixa de capacidades e seleção visual de projetos existentes. Cases individuais permanecem sem links enquanto contexto, resultados e autorização para publicação não estiverem validados.
+
+- **Aprovado (2026-09-21):** header (desktop e mobile) e rodapé usam um único link de Serviços para a seção da home, em português e inglês. Links para páginas individuais de serviços foram retirados desses menus porque o modelo visual dessas páginas não foi aprovado. Rotas existentes permanecem; revisão das páginas e da indexação está pendente de alinhamento.
+
+- **Aprovado e implementado (2026-09-21, após a avaliação do blog):** apresentação e metadata do blog revisadas em PT/EN; autoria visível nos artigos; aprofundamento inicial de dois artigos em português (orçamento de redes sociais e branding versus identidade visual). Links dos artigos passam a apontar para Serviços na home. A pendência de indexação acima foi resolvida: páginas individuais de serviços recebem `noindex, follow` e saem do sitemap até revisão aprovada. O modelo visual dessas páginas continua pendente. Próximas pautas e avaliação de aquisição orgânica dependem de pesquisa de demanda e dados do Search Console.
+
+- **Aprovado (2026-10-07):** adaptar layout e movimento da home à referência Stodio, mantendo identidade e conteúdo da Cora, a hero com altura de tela e os projetos mais próximos. Implementação visual em validação; não adicionar planos comerciais ou provas de clientes da referência.
+
+- **Aprovado (2026-10-07):** adaptar o layout dos artigos e suas animações à referência de blog individual do Stodio; adicionar entrada suave nas páginas PT/EN e seção de outros artigos com retorno à listagem. Preservar conteúdo, autoria e contratos públicos.

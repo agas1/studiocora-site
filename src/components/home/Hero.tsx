@@ -89,7 +89,7 @@ export function Hero({
           href={copy.projectsHref ?? (locale === 'pt' ? '/pt/portfolio' : '/en/work')}
           style={{ backgroundColor: RED }}
           className={`
-            rounded-full
+            group rounded-full
             px-5 py-3
             ${isMaintenance ? 'text-[13px]' : 'text-[11px]'}
             font-bold
@@ -109,7 +109,7 @@ export function Hero({
         <Link
           {...whatsappLinkProps(locale, locale === 'pt' ? '/pt/contato' : '/en/contact')}
           className={`
-            rounded-full
+            group rounded-full
             bg-white
             px-5 py-3
             ${isMaintenance ? 'text-[13px]' : 'text-[11px]'}
@@ -135,7 +135,7 @@ export function Hero({
   const description = (
     <>
       {copy.descriptionLine1}
-      <br />
+      {isMaintenance ? <br /> : ' '}
       {copy.descriptionLine2}
     </>
   )
@@ -160,7 +160,7 @@ export function Hero({
 
               <HeroBackground blurred={isMaintenance} />
 
-              <div className="relative z-20 flex flex-1 flex-col px-6 py-6 md:px-9 md:py-8">
+              <div className={`relative z-20 flex flex-1 flex-col px-6 py-6 ${isMaintenance ? 'md:px-9 md:py-8' : 'md:px-6 md:py-6 lg:px-8 lg:py-8'}`}>
 
                 {/* =================================================
                     HEADER
@@ -172,7 +172,7 @@ export function Hero({
                     HERO CONTENT
                 ================================================= */}
 
-                <div className={`flex min-h-0 flex-1 flex-col justify-between ${isMaintenance ? 'pt-10 md:pt-14' : 'pt-8 md:pt-12'}`}>
+                <div className={`flex min-h-0 flex-1 flex-col justify-between ${isMaintenance ? 'pt-10 md:pt-14' : 'pt-14 md:pt-28'}`}>
 
                   <motion.div
                     initial={{ opacity: 0, x: -34, y: 10 }}
@@ -182,7 +182,7 @@ export function Hero({
                       delay: 0.15,
                       ease,
                     }}
-                    className={isMaintenance ? 'w-full' : 'max-w-[1150px]'}
+                    className={isMaintenance ? 'w-full' : 'w-full max-w-[820px]'}
                   >
 
                     <div
@@ -215,7 +215,7 @@ export function Hero({
                       style={isMaintenance ? undefined : { fontFamily: 'var(--font-display)' }}
                       className={isMaintenance
                         ? 'max-w-[1100px] text-[clamp(3.25rem,7.5vw,8rem)] font-medium leading-[0.88] tracking-[-0.055em]'
-                        : 'uppercase text-[15vw] font-black leading-[0.74] tracking-[-0.045em] sm:text-[13vw] md:text-[8.3vw] lg:text-[7rem] xl:text-[8rem]'}
+                        : 'max-w-[820px] uppercase text-[clamp(2.75rem,7.5vw,7rem)] font-black leading-[0.94] tracking-[-0.045em]'}
                     >
                       {isMaintenance ? (
                         <>
@@ -227,7 +227,7 @@ export function Hero({
                         <>
                           {copy.titleLine1}
                           <br />
-                          {copy.connector ?? 'MEAN'}{' '}
+                          {copy.connector && <>{copy.connector}{' '}</>}
                           <span style={{ color: ACCENT }}>{copy.titleLine2}</span>
                         </>
                       )}
@@ -249,7 +249,7 @@ export function Hero({
 
                       </div>
                     ) : (
-                      <p className="mt-6 max-w-md text-[12px] font-medium leading-[1.5] text-white/80 md:mt-8 md:text-sm">
+                      <p className="mt-6 max-w-[620px] text-[12px] font-medium leading-[1.5] text-white/80 md:mt-8 md:text-sm">
                         {description}
                       </p>
                     )}
@@ -269,7 +269,7 @@ export function Hero({
                         duration: 0.8,
                         delay: 0.7,
                       }}
-                      className={`col-span-12 grid grid-cols-2 gap-4 font-semibold uppercase tracking-[0.14em] text-white/75 md:col-span-7 md:grid-cols-3 ${isMaintenance ? 'text-[11px] md:text-xs' : 'text-[9px]'}`}
+                      className={`col-span-12 grid grid-cols-2 gap-4 font-semibold uppercase tracking-[0.14em] text-white/75 md:col-span-7 md:grid-cols-3 ${isMaintenance ? 'text-[11px] md:text-xs' : 'text-[9px] md:pb-1 md:text-[10px]'}`}
                     >
                       {copy.locations.map((location) => <span key={location}>+ {location}</span>)}
                     </motion.div>
@@ -277,7 +277,7 @@ export function Hero({
                     {!isMaintenance && (
                       <motion.div
                         {...statementMotion}
-                        className="col-span-12 md:col-span-5"
+                        className="col-span-12 md:col-span-5 md:justify-self-end md:max-w-[440px]"
                       >
                         {statementBlock}
                       </motion.div>

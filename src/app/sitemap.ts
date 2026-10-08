@@ -1,5 +1,4 @@
 import type { MetadataRoute } from 'next'
-import { getServices } from '@/content/pages'
 import { getProjects } from '@/content/projects'
 import { siteUrl } from '@/lib/seo'
 import { getBlogArticles } from '@/sanity/lib/articles'
@@ -19,10 +18,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/en/contact', priority: 0.7 },
   ]
 
-  const serviceRoutes = [
-    ...getServices('pt').map((service) => `/pt/servicos/${service.slug}`),
-    ...getServices('en').map((service) => `/en/services/${service.slug}`),
-  ]
   const projectRoutes = [
     ...getProjects('pt').map((project) => `/pt/portfolio/${project.slug}`),
     ...getProjects('en').map((project) => `/en/work/${project.slug}`),
@@ -38,11 +33,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${siteUrl}${path}`,
       changeFrequency: 'monthly' as const,
       priority,
-    })),
-    ...serviceRoutes.map((path) => ({
-      url: `${siteUrl}${path}`,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
     })),
     ...projectRoutes.map((path) => ({
       url: `${siteUrl}${path}`,

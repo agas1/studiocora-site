@@ -24,10 +24,10 @@ export function JournalSection({ locale, copy }: { locale: Locale; copy: SiteCon
           {copy.label}
         </p></Reveal>
 
-        <div className="mt-8 grid grid-cols-12 gap-x-8 gap-y-8 md:items-end">
+        <div className="mt-8 grid grid-cols-12 gap-x-4 gap-y-8 md:items-end md:gap-x-8">
           <Reveal direction="left" delay={0.08} className="col-span-12 md:col-span-8"><h2 id="journal-title" className="max-w-[760px] text-[clamp(2.7rem,4.6vw,4.8rem)] leading-[1.02] tracking-[-0.05em]">
-            {copy.titleLine1}<br />
-            {copy.titleLine2} <span className="text-[#0A0A0A]/35">{copy.titleConnector}</span><br />
+            {copy.titleLine1}{' '}
+            {copy.titleLine2} <span className="text-[#0A0A0A]/35">{copy.titleConnector}</span>{' '}
             <span className="text-[#0A0A0A]/35">{copy.titleMuted}</span>
           </h2></Reveal>
           <Reveal direction="right" delay={0.14} className="col-span-12 md:col-span-4 md:ml-auto md:mr-10"><Link href={basePath} className="group relative flex w-fit items-center text-xl font-bold tracking-[-0.03em] md:text-2xl">
@@ -44,7 +44,7 @@ export function JournalSection({ locale, copy }: { locale: Locale; copy: SiteCon
 
             return (
               <Reveal key={article.slug} direction="up" delay={index * 0.08} className="min-w-0"><article className="group min-w-0">
-                <Link href={`${basePath}/${article.slug}`} className="flex min-h-[520px] flex-col rounded-[22px] bg-[#F1F1F1] p-6 transition-colors duration-200 hover:bg-[#ECECEC] md:min-h-[590px]">
+                <Link href={`${basePath}/${article.slug}`} className="flex min-h-[520px] flex-col rounded-[22px] bg-[#F1F1F1] p-6 transition-[border-radius,background-color] duration-500 hover:rounded-[32px] hover:bg-[#ECECEC] focus-visible:rounded-[32px] md:min-h-[590px]">
                   <div className="flex items-start justify-between gap-5">
                     <span className="text-sm font-bold">{article.category}</span>
                     <div className="relative aspect-[5/4] w-[42%] overflow-hidden rounded-[16px] bg-[#D8D8D8]">

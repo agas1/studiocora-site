@@ -50,6 +50,8 @@ const organizationSchema = {
   sameAs: [
     'https://www.instagram.com/usestudiocora/',
     'https://www.linkedin.com/company/studiocora/',
+    'https://x.com/hellostudiocora',
+    'https://www.facebook.com/p/Studiocora-61590030178838/',
   ],
 
   hasOfferCatalog: {

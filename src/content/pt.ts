@@ -23,9 +23,9 @@ export const pt = {
   },
 
   proof: {
-    line1: '7+ ANOS DE EXPERIÊNCIA CRIATIVA',
-    line2: 'CONSTRUINDO MARCAS E EXPERIÊNCIAS DIGITAIS.',
-    items: ['BRANDING', 'REDES SOCIAIS', 'WEB DESIGN', 'DIREÇÃO CRIATIVA', 'EXPERIÊNCIAS DIGITAIS'],
+    line1: 'NOSSOS PARCEIROS',
+    line2: 'Marcas fictícias para demonstração.',
+    items: ['Valora', 'Oliva', 'Vértice', 'Nume', 'Casa Vero'],
   },
 
   about: {

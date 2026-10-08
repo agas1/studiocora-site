@@ -2,12 +2,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Article } from '@/content/articles'
 import { getArticleImage } from './articleImages'
+import { readingMinutes } from './readingTime'
 
-export type ArticleSummary = Pick<Article, 'slug' | 'title' | 'description' | 'category' | 'date' | 'coverImage' | 'coverImageAlt'>
+export type ArticleSummary = Pick<Article, 'slug' | 'title' | 'description' | 'category' | 'date' | 'coverImage' | 'coverImageAlt'> & Partial<Pick<Article, 'intro' | 'sections' | 'body'>>
 
 export function ArticleCard({ article, basePath }: { article: ArticleSummary; basePath: string }) {
   const isPt = basePath.startsWith('/pt')
   const image = article.coverImage ?? getArticleImage(article.slug)
+  const minutes = readingMinutes(article)
   const formattedDate = new Intl.DateTimeFormat(isPt ? 'pt-BR' : 'en-US', {
     day: '2-digit',
     month: 'long',
@@ -16,18 +18,18 @@ export function ArticleCard({ article, basePath }: { article: ArticleSummary; ba
   }).format(new Date(`${article.date}T00:00:00Z`))
 
   return (
-    <article className="group relative flex min-h-[360px] flex-col overflow-hidden rounded-[20px] bg-[#F1F1F1] p-4 transition-colors duration-300 hover:bg-[#EDEDFB] md:min-h-[390px]">
+    <article className="group relative flex min-h-[480px] flex-col overflow-hidden rounded-[22px] bg-[#F1F1F1] p-6 transition-[border-radius,background-color] duration-500 hover:rounded-[32px] hover:bg-[#EDEDFB] focus-within:rounded-[32px] focus-within:outline-2 focus-within:outline-offset-4 focus-within:outline-[#6966F0] md:min-h-[520px]">
       <div className="flex items-start justify-between gap-4">
-        <p className="rounded-md bg-white px-3 py-1.5 text-[11px] font-semibold leading-none text-[#0A0A0A]">
+        <p className="text-sm font-semibold text-[#0A0A0A]">
           {article.category}
         </p>
         {image && (
-          <div className="relative aspect-[5/4] w-[116px] shrink-0 overflow-hidden rounded-[10px] bg-[#DADADA] md:w-[124px]">
+          <div className="relative aspect-[5/4] w-[42%] shrink-0 overflow-hidden rounded-[16px] bg-[#DADADA]">
             <Image
               src={image}
               alt={article.coverImageAlt ?? ''}
               fill
-              sizes="124px"
+              sizes="(max-width: 768px) 35vw, 15vw"
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
             />
           </div>
@@ -42,16 +44,16 @@ export function ArticleCard({ article, basePath }: { article: ArticleSummary; ba
           </time>
           <span className="inline-flex items-center gap-2">
             <span aria-hidden="true" className="size-1.5 rounded-full bg-[#6966F0]" />
-            {isPt ? '4 minutos de leitura' : '4 minute read'}
+            {minutes} {isPt ? 'min de leitura' : 'min read'}
           </span>
         </div>
 
-        <h3 className="mt-5 text-[clamp(1.3rem,1.6vw,1.75rem)] font-semibold leading-[1.08] tracking-[-0.045em]">
+        <h3 className="mt-7 text-[clamp(1.45rem,1.8vw,1.85rem)] font-semibold leading-[1.12] tracking-[-0.035em] transition-colors duration-300 group-hover:text-[#6966F0]">
           <Link href={`${basePath}/${article.slug}`} className="after:absolute after:inset-0 focus-visible:outline-none">
             {article.title}
           </Link>
         </h3>
-        <p className="mt-3 line-clamp-2 text-[12px] leading-5 text-[#0A0A0A]/55">{article.description}</p>
+        <p className="mt-4 text-[15px] leading-6 text-[#0A0A0A]/55">{article.description}</p>
       </div>
     </article>
   )

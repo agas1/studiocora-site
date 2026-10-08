@@ -80,3 +80,31 @@ Componentes devem nascer de padrões reais do produto. Variantes precisam repres
 ## Critério de aceite visual
 
 Uma interface está pronta quando mantém identidade e hierarquia em mobile e desktop, torna a próxima ação evidente, não depende de efeitos para ser compreendida e usa apenas padrões/tokens aprovados.
+
+## Faixa de parceiros demonstrativos — 2026-09-28
+
+**Aprovado:** substituir a faixa de serviços por “Nossos parceiros”, com cinco marcas fictícias e logos vetoriais monocromáticos: Valora, Oliva, Vértice, Nume e Casa Vero. A composição usa grid responsivo estático, sem fontes ou imagens externas adicionais.
+
+**Em validação:** os nomes e símbolos são demonstrativos, identificados visivelmente como fictícios em PT/EN; não constituem prova de relacionamento comercial. Substituir por parceiros verificados antes de usar a seção como prova comercial.
+
+## Layout e movimento da home — 2026-10-07
+
+**Aprovado:** aproximar layout, animações e hover da referência Stodio (https://stodio.webflow.io/), preservando cores, marca, família tipográfica, conteúdo e ativos da Studio Cora. A hero mantém a altura de tela solicitada. Não importar preços, métricas, depoimentos ou imagens da referência.
+
+**Implementado:** botões com texto rolante no hover/foco; métricas com rolagem vertical de dígitos; projetos com deslocamento vertical suave, imagens sempre visíveis e introdução no fluxo normal, sem título fixo ou desaparecimento no scroll; serviços com prévia ativa inicial; carrossel de colaboração com indicadores sincronizados; títulos editoriais com quebra natural; redução de movimento também nos efeitos CSS e faixas contínuas.
+
+A faixa estática descrita na decisão de 2026-09-28 foi substituída pelo carrossel a pedido do usuário. Os nomes continuam fictícios e identificados como demonstração.
+
+**Em validação:** equivalência visual final com a referência e aprovação dos ajustes em PT/EN.
+
+## Artigos e entrada das páginas — 2026-10-07
+
+**Aprovado:** aproximar os artigos do layout e movimento da página de blog individual do Stodio, preservando identidade, conteúdo, autoria, URLs, metadata e schema da Cora.
+
+**Implementado:** hero centralizada em painel arredondado; autoria, data e tempo de leitura agrupados; conteúdo com apoio lateral e índice nos artigos estruturados; cards de outros artigos e link “Todos os artigos” com hover/foco; CTA final; revelação dos blocos e entrada suave em cada navegação PT/EN por templates do App Router. A entrada de página usa somente opacidade, sem deslocar elementos fixos ou interferir no layout. Respeita redução de movimento.
+
+**Em validação:** aprovação visual final pelo usuário.
+
+## Hidratação e preferência de movimento — 2026-10-07
+
+**Implementado:** leitura de `prefers-reduced-motion` por `useSyncExternalStore`, com snapshot inicial compartilhado entre servidor e primeira renderização do cliente. A preferência real é aplicada após a hidratação e continua reagindo às alterações do sistema. Corrige a divergência de estilos reproduzida com redução de movimento ativa, sem suprimir avisos.

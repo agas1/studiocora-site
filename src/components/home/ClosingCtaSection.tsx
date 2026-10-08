@@ -18,9 +18,9 @@ export function ClosingCtaSection({ locale, copy, showTopBorder = true, compact 
         </motion.p>
 
         <h2 id="closing-cta-title" className="mt-8 text-[clamp(2.6rem,7vw,120px)] leading-[1.02] tracking-[-0.055em]">
-          <span className="block">{copy.titleLine1}</span>
-          <span className="block whitespace-nowrap">{copy.titleLine2}</span>
-          <span className="block">{copy.titleLine3}</span>
+          <span>{copy.titleLine1}</span>{' '}
+          <span>{copy.titleLine2}</span>{' '}
+          <span>{copy.titleLine3}</span>
         </h2>
 
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.34, ease }}>

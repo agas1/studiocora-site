@@ -25,13 +25,12 @@ export function Footer({ locale, copy }: { locale: Locale; copy: SiteContent['fo
   const socials = [
     { name: 'linkedin' as const, label: 'LinkedIn', href: 'https://www.linkedin.com/company/studiocora/' },
     { name: 'instagram' as const, label: 'Instagram', href: 'https://www.instagram.com/usestudiocora/' },
-    { name: 'facebook' as const, label: 'Facebook' },
-    { name: 'x' as const, label: 'X' },
+    { name: 'facebook' as const, label: 'Facebook', href: 'https://www.facebook.com/p/Studiocora-61590030178838/' },
+    { name: 'x' as const, label: 'X', href: 'https://x.com/hellostudiocora' },
     { name: 'youtube' as const, label: 'YouTube' },
   ]
   const columns = [
     [{ label: copy.links.home, href: base }, { label: copy.links.studio, href: locale === 'pt' ? '/pt/sobre' : '/en/studio' }, { label: copy.links.projects, href: `${base}#work` }, { label: copy.links.services, href: `${base}#services` }, { label: copy.links.journal, href: locale === 'pt' ? '/pt/blog' : '/en/insights' }],
-    [{ label: copy.links.branding, href: locale === 'pt' ? '/pt/servicos/branding' : '/en/services/branding' }, { label: copy.links.social, href: locale === 'pt' ? '/pt/servicos/gestao-de-redes-sociais' : '/en/services/social-media-management' }, { label: copy.links.identity, href: locale === 'pt' ? '/pt/servicos/identidade-visual' : '/en/services/visual-identity' }, { label: copy.links.web, href: locale === 'pt' ? '/pt/servicos/desenvolvimento-web' : '/en/services/web-development' }],
     [{ label: copy.links.contact, href: contactPath }, { label: copy.links.email, href: 'mailto:hello@usestudiocora.com' }, { label: copy.links.language, href: locale === 'pt' ? '/en' : '/pt' }],
   ]
 
@@ -58,7 +57,7 @@ export function Footer({ locale, copy }: { locale: Locale; copy: SiteContent['fo
       <div ref={panelRef} onPointerMove={followPointer} className="group/footer relative isolate min-h-[640px] overflow-hidden rounded-[26px] bg-[#090909] px-6 py-9 font-semibold text-white md:min-h-[680px] md:rounded-[30px] md:px-10 md:py-10">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover/footer:opacity-100 motion-reduce:hidden" style={{ background: 'radial-gradient(340px circle at var(--glow-x, 55%) var(--glow-y, 60%), rgba(255,255,255,0.13), transparent 72%)' }} />
         <div className="mx-auto flex min-h-[568px] max-w-[1440px] flex-col md:min-h-[600px]">
-          <div className="grid grid-cols-12 gap-x-8 gap-y-14">
+          <div className="grid grid-cols-12 gap-x-4 gap-y-14 md:gap-x-8">
             <motion.div initial={{ opacity: 0, x: -28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }} className="col-span-12 md:col-span-6">
               <h2 className="max-w-[540px] text-[clamp(1.75rem,2.8vw,3rem)] font-bold leading-[1.05] tracking-[-0.045em]">{copy.newsletterLine1}<br />{copy.newsletterLine2}</h2>
               <form onSubmit={subscribe} className="mt-7 flex min-h-[60px] max-w-[560px] items-center rounded-full border border-white p-1 transition-[border-radius] duration-200 ease-out hover:rounded-[16px] focus-within:rounded-[16px]">
@@ -79,7 +78,7 @@ export function Footer({ locale, copy }: { locale: Locale; copy: SiteContent['fo
                 ))}
               </div>
             </motion.div>
-            <motion.nav initial={{ opacity: 0, x: 28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.85, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} aria-label={copy.navigationLabel} className="col-span-12 grid grid-cols-2 gap-x-4 gap-y-8 md:col-span-5 md:col-start-8 md:grid-cols-3 md:gap-8">
+            <motion.nav initial={{ opacity: 0, x: 28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.85, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} aria-label={copy.navigationLabel} className="col-span-12 grid grid-cols-2 gap-x-4 gap-y-8 md:col-span-5 md:col-start-8 md:grid-cols-2 md:gap-8">
                   {columns.map((column, index) => <div key={index} className="space-y-3 border-l border-white/20 pl-4 md:pl-6">{column.map((link) => <Link key={link.label} href={link.href} className="block w-fit text-base text-white transition-colors duration-200 hover:text-[#6966F0] md:text-lg">{link.label}</Link>)}</div>)}
             </motion.nav>
           </div>

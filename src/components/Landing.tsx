@@ -16,8 +16,8 @@ import { ScrollSectionReveal } from './motion/ScrollSectionReveal'
 export function Landing({ locale = 'pt' }: { locale?: Locale }) {
   const copy = getContent(locale)
   return (
-    <main className="min-h-screen w-full bg-white text-[#0A0A0A]">
-      <ScrollSectionReveal><Hero locale={locale} copy={copy.hero} /></ScrollSectionReveal>
+    <main className="min-h-screen w-full overflow-x-clip bg-white text-[#0A0A0A]">
+      <Hero locale={locale} copy={copy.hero} />
 
       <ScrollSectionReveal><ProofMarquee copy={copy.proof} /></ScrollSectionReveal>
 

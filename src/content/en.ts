@@ -23,9 +23,9 @@ export const en = {
   },
 
   proof: {
-    line1: '7+ YEARS OF CREATIVE EXPERIENCE',
-    line2: 'BUILDING BRANDS & DIGITAL EXPERIENCES.',
-    items: ['BRANDING', 'SOCIAL MEDIA', 'WEB DESIGN', 'CREATIVE DIRECTION', 'DIGITAL EXPERIENCES'],
+    line1: 'OUR PARTNERS',
+    line2: 'Fictional brands for demonstration.',
+    items: ['Valora', 'Oliva', 'Vértice', 'Nume', 'Casa Vero'],
   },
 
   about: {

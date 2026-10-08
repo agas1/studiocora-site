@@ -25,7 +25,11 @@ Construir aquisição orgânica sustentável e garantir que páginas usadas em G
 | Landing pages | Comercial | Página de serviço |
 | Desenvolvimento web | Comercial | Página de serviço |
 
-As páginas-base de serviço foram aprovadas e implementadas em PT/EN. A copy deve ser refinada com pesquisa de demanda antes do lançamento definitivo; páginas de cases e artigos só entram no sitemap quando houver conteúdo real.
+**Correção de status (2026-09-21):** as páginas-base de serviços existem em PT/EN, mas o usuário esclareceu que sua criação e modelo visual não foram aprovados. O registro anterior de aprovação estava incorreto. As URLs permanecem disponíveis com `noindex, follow`, fora do sitemap e sem links no header, rodapé e artigos, até uma revisão aprovada. Os links de serviços nesses pontos levam à seção da home.
+
+**Aprovado (2026-09-21):** priorizar conteúdo editorial em português para empresas brasileiras, mantendo a versão em inglês. A apresentação do blog passa a explicar seus temas e sua utilidade. A primeira revisão aprofunda os artigos sobre orçamento de redes sociais e branding versus identidade visual, com exemplos identificados como ilustrativos e referência ao projeto GD Law já documentado. Autoria fica visível; datas de atualização refletem revisões efetivas. Preços, depoimentos e resultados não devem ser inventados.
+
+**Pendente:** pesquisa de demanda, revisão dos demais artigos e validação de resultados no Search Console do domínio publicado. Metadados e conteúdo local não comprovam indexação ou posicionamento.
 
 ## Requisitos por página
 

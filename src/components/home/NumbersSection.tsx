@@ -1,70 +1,39 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { animate, motion, useInView, useMotionValue, useReducedMotion, useTransform } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { useReducedMotion } from '@/lib/useReducedMotion'
 import type { SiteContent } from '@/content'
 
 const ease = [0.16, 1, 0.3, 1] as const
 const RED = '#7473F5'
 
-function RollingMetric({
-  value,
-  index,
-}: {
-  value: string
-  index: number
-}) {
+function RollingMetric({ value, index }: { value: string; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: '-80px' })
+  const isInView = useInView(ref, { once: true, margin: '-60px' })
   const reduceMotion = useReducedMotion()
-  const target = Number.parseInt(value, 10)
-  const suffix = value.replace(/\d+/g, '')
-  const startsAbove = index % 2 === 1
-  const count = useMotionValue(startsAbove ? target + 38 : 0)
-  const display = useTransform(count, (latest) => `${Math.round(latest)}${suffix}`)
-
-  useEffect(() => {
-    if (!isInView) return
-    if (reduceMotion) {
-      count.set(target)
-      return
-    }
-
-    const sequence = startsAbove
-      ? [target + 38, 0, target + 24, Math.max(0, target - 2), target]
-      : [0, target + 34, Math.max(0, target - 2), target + 18, target]
-
-    const controls = animate(count, sequence, {
-      duration: 2.4,
-      delay: index * 0.12,
-      times: [0, 0.32, 0.58, 0.8, 1],
-      ease: 'easeInOut',
-    })
-    return () => controls.stop()
-  }, [count, index, isInView, reduceMotion, startsAbove, target])
 
   return (
-    <div ref={ref} className="relative overflow-hidden">
-      <motion.div
-        initial={{ y: startsAbove ? -28 : 28, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.9, delay: index * 0.1, ease }}
-        className="
-          text-[58px]
-          font-semibold
-          leading-none
-          tracking-[-0.07em]
-          md:text-[64px]
-          lg:text-[72px]
-        "
-      >
-        <motion.span>{display}</motion.span>
-      </motion.div>
+    <div ref={ref} aria-label={value} className="flex h-[1.1em] overflow-hidden text-[64px] font-semibold leading-[1.1] tracking-[-0.07em] md:text-[80px] lg:text-[96px]">
+      {Array.from(value).map((character, digitIndex) => {
+        if (!/\d/.test(character)) return <span key={digitIndex} aria-hidden="true">{character}</span>
+        const digits = [character, '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', character]
+        return (
+          <span key={digitIndex} aria-hidden="true" className="relative block h-[1.1em] w-[0.65em] overflow-hidden tabular-nums">
+            <motion.span
+              className="block"
+              initial={false}
+              animate={{ y: isInView && !reduceMotion ? '-91.666667%' : '0%' }}
+              transition={{ duration: reduceMotion ? 0 : 1.8, delay: index * 0.1 + digitIndex * 0.08, ease }}
+            >
+              {digits.map((digit, step) => <span key={step} className="block h-[1.1em]">{digit}</span>)}
+            </motion.span>
+          </span>
+        )
+      })}
     </div>
   )
 }
-
 export function NumbersSection({ copy }: { copy: SiteContent['numbers'] }) {
   return (
     <section

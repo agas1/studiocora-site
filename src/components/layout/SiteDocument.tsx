@@ -38,7 +38,8 @@ export const sharedMetadata: Metadata = {
 
 export function SiteDocument({ lang, children }: { lang: 'pt-BR' | 'en'; children: React.ReactNode }) {
   return (
-    <html lang={lang}>
+    // Browser translators can change the root lang/class before React hydrates.
+    <html lang={lang} suppressHydrationWarning>
       <body suppressHydrationWarning>
         <OrganizationSchema />
         <MotionAccessibility>{children}</MotionAccessibility>

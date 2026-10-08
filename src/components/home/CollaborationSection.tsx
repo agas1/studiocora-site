@@ -1,20 +1,38 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { useReducedMotion } from '@/lib/useReducedMotion'
 import type { SiteContent } from '@/content'
 
 const collaborationImages = ['/hero1.jpg', '/hero2.jpg', '/amanda.png', '/agatha.png', '/hero1.jpg'] as const
 
 export function CollaborationSection({ copy }: { copy: SiteContent['collaboration'] }) {
   const trackRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const reduceMotion = useReducedMotion()
 
   function move(direction: -1 | 1) {
-    trackRef.current?.scrollBy({
-      left: direction * Math.min(trackRef.current.clientWidth * 0.78, 560),
-      behavior: 'smooth',
+    const track = trackRef.current
+    if (!track) return
+    const nextIndex = (activeIndex + direction + copy.items.length) % copy.items.length
+    const card = track.children[nextIndex] as HTMLElement | undefined
+    if (!card) return
+    track.scrollTo({ left: card.offsetLeft - (track.firstElementChild as HTMLElement).offsetLeft, behavior: reduceMotion ? 'auto' : 'smooth' })
+  }
+
+  function updateActiveIndex() {
+    const track = trackRef.current
+    if (!track || !track.firstElementChild) return
+    const origin = (track.firstElementChild as HTMLElement).offsetLeft
+    let closest = 0
+    let distance = Infinity
+    Array.from(track.children).forEach((child, index) => {
+      const delta = Math.abs((child as HTMLElement).offsetLeft - origin - track.scrollLeft)
+      if (delta < distance) { distance = delta; closest = index }
     })
+    setActiveIndex(closest)
   }
 
   return (
@@ -26,7 +44,7 @@ export function CollaborationSection({ copy }: { copy: SiteContent['collaboratio
             {copy.label}
           </p>
 
-          <div className="mt-7 grid grid-cols-12 gap-x-8 gap-y-5 md:items-end">
+          <div className="mt-7 grid grid-cols-12 gap-x-4 gap-y-5 md:items-end md:gap-x-8">
             <h2 id="collaboration-title" className="col-span-12 max-w-[650px] text-[clamp(2.7rem,4.7vw,4.9rem)] leading-[0.95] tracking-[-0.05em] md:col-span-7">
               {copy.titleLine1}<br />{copy.titleLine2}
             </h2>
@@ -39,7 +57,11 @@ export function CollaborationSection({ copy }: { copy: SiteContent['collaboratio
         <div className="mx-auto mt-10 w-[calc(100%-24px)] max-w-[1440px] md:mt-12 md:w-[calc(100%-48px)]">
           <div
             ref={trackRef}
-            className="flex snap-x snap-mandatory gap-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            onScroll={updateActiveIndex}
+            tabIndex={0}
+            role="region"
+            aria-label={copy.titleLine1}
+            className="relative flex snap-x snap-mandatory gap-4 overflow-x-auto [padding-inline-end:calc(100%-min(84vw,390px))] [scrollbar-width:none] md:[padding-inline-end:calc(100%-min(30vw,390px))] [&::-webkit-scrollbar]:hidden"
           >
             {copy.items.map((item, index) => (
             <motion.article initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.8, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }} key={item.title} className="flex min-h-[360px] w-[84vw] max-w-[390px] shrink-0 snap-start flex-col rounded-[18px] bg-[#232323] p-6 md:min-h-[410px] md:w-[30vw]">
@@ -66,7 +88,7 @@ export function CollaborationSection({ copy }: { copy: SiteContent['collaboratio
 
         <div className="mx-auto mt-auto flex w-[calc(100%-24px)] max-w-[1440px] items-center justify-between pt-8 md:w-[calc(100%-48px)]">
           <div aria-hidden="true" className="flex gap-1.5">
-            {copy.items.map((item, index) => <span key={item.title} className={`size-2 rounded-full ${index === 0 ? 'bg-white' : 'bg-white/30'}`} />)}
+            {copy.items.map((item, index) => <span key={item.title} className={`size-2 rounded-full transition-colors ${index === activeIndex ? 'bg-white' : 'bg-white/30'}`} />)}
           </div>
           <div className="flex gap-2">
             <button type="button" onClick={() => move(-1)} aria-label={copy.previous} className="flex size-11 items-center justify-center rounded-full bg-[#232323] text-xl transition-colors hover:bg-[#343434]">←</button>

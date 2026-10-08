@@ -1,7 +1,8 @@
 'use client'
 
 import { useRef, type ReactNode } from 'react'
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useReducedMotion } from '@/lib/useReducedMotion'
 import { useMinWidth } from '@/lib/useMinWidth'
 
 export function ScrollSectionReveal({ children, className }: { children: ReactNode; className?: string }) {

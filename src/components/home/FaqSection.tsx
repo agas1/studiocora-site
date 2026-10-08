@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useReducedMotion } from '@/lib/useReducedMotion'
 import type { SiteContent } from '@/content'
 
 export function FaqSection({ copy }: { copy: SiteContent['faq'] }) {
@@ -10,7 +11,7 @@ export function FaqSection({ copy }: { copy: SiteContent['faq'] }) {
 
   return (
     <section aria-labelledby="faq-title" className="bg-white px-6 py-20 md:px-10 md:py-28">
-      <div className="mx-auto grid max-w-[1440px] grid-cols-12 gap-x-8 gap-y-16">
+      <div className="mx-auto grid max-w-[1440px] grid-cols-12 gap-x-4 gap-y-16 md:gap-x-8">
         <motion.header initial={{ opacity: 0, x: -28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-70px' }} transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }} className="col-span-12 md:col-span-5">
           <p className="inline-flex items-center gap-2 rounded-full bg-[#F1F1F1] px-4 py-2 text-[10px] font-bold uppercase tracking-[0.16em]">
             <span aria-hidden="true" className="flex size-4 items-center justify-center bg-[#6966F0] text-[11px] leading-none text-white">+</span>

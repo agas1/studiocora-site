@@ -213,8 +213,11 @@ function BlogHero({ locale }: { locale: Locale }) {
                 id="blog-page-title"
                 className="mt-8 max-w-[1100px] text-[clamp(2.9rem,6vw,6.8rem)] leading-[0.98] tracking-[-0.065em]"
               >
-                {isPt ? 'Ideias para marcas que querem significar mais.' : 'Ideas for brands that want to mean more.'}
+                {isPt ? 'Branding, design e presença digital para empresas.' : 'Branding, design and digital presence for businesses.'}
               </h1>
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/75 md:text-lg">
+                {isPt ? 'Guias para comparar propostas, planejar projetos e tomar decisões sobre marca, redes sociais e websites.' : 'Practical guides to compare proposals, plan projects and make decisions about your brand, social media and website.'}
+              </p>
             </Reveal>
           </div>
         </div>

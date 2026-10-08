@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useReducedMotion } from '@/lib/useReducedMotion'
 import type { SiteContent } from '@/content'
 
 const ACCENT = '#6966F0'
@@ -27,6 +28,7 @@ function Asterisk({ className }: { className?: string }) {
 }
 
 export function ProofMarquee({ copy }: { copy: SiteContent['proof'] }) {
+  const reduceMotion = useReducedMotion()
   const partners = [...copy.items, ...copy.items]
   return (
     <section
@@ -60,7 +62,7 @@ export function ProofMarquee({ copy }: { copy: SiteContent['proof'] }) {
               >
     
                 <motion.div
-                  animate={{ rotate: 360 }}
+                  animate={reduceMotion ? { rotate: 0 } : { rotate: 360 }}
                   transition={{
                     duration: 8,
                     repeat: Infinity,
@@ -96,7 +98,7 @@ export function ProofMarquee({ copy }: { copy: SiteContent['proof'] }) {
                     absolute inset-y-0 left-0
                     z-10 w-16
                     bg-gradient-to-r
-                    from-[#EDEDED]
+                    from-white
                     to-transparent
                   "
                 />
@@ -107,13 +109,13 @@ export function ProofMarquee({ copy }: { copy: SiteContent['proof'] }) {
                     absolute inset-y-0 right-0
                     z-10 w-16
                     bg-gradient-to-l
-                    from-[#EDEDED]
+                    from-white
                     to-transparent
                   "
                 />
     
                 <motion.div
-                  animate={{ x: ['0%', '-50%'] }}
+                  animate={reduceMotion ? { x: 0 } : { x: ['0%', '-50%'] }}
                   transition={{
                     duration: 22,
                     repeat: Infinity,

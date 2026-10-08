@@ -22,15 +22,18 @@ function MegaMenuLink({
   active,
   onActivate,
   onDeactivate,
+  onNavigate,
 }: {
   item: MenuItem
   active: boolean
   onActivate: () => void
   onDeactivate: () => void
+  onNavigate?: () => void
 }) {
   return (
     <Link
       href={item.href}
+      onClick={onNavigate}
       onMouseEnter={onActivate}
       onMouseLeave={onDeactivate}
       onFocus={onActivate}
@@ -109,62 +112,13 @@ export function Header({ locale, languageHrefs, variant = 'dark', compactLogo = 
         },
       ]
 
-  const serviceItems = isPt
-    ? [
-        {
-          label: 'Gestão de Redes Sociais',
-          href: '/pt/servicos/gestao-de-redes-sociais',
-          preview: '/hero1.jpg',
-        },
-        {
-          label: 'Branding',
-          href: '/pt/servicos/branding',
-          preview: '/hero2.jpg',
-        },
-        {
-          label: 'Identidade Visual',
-          href: '/pt/servicos/identidade-visual',
-          preview: '/hero1.jpg',
-        },
-        {
-          label: 'Landing Pages',
-          href: '/pt/servicos/landing-pages',
-          preview: '/hero2.jpg',
-        },
-        {
-          label: 'Desenvolvimento Web',
-          href: '/pt/servicos/desenvolvimento-web',
-          preview: '/hero1.jpg',
-        },
-      ]
-    : [
-        {
-          label: 'Social Media Management',
-          href: '/en/services/social-media-management',
-          preview: '/hero1.jpg',
-        },
-        {
-          label: 'Branding',
-          href: '/en/services/branding',
-          preview: '/hero2.jpg',
-        },
-        {
-          label: 'Visual Identity',
-          href: '/en/services/visual-identity',
-          preview: '/hero1.jpg',
-        },
-        {
-          label: 'Landing Pages',
-          href: '/en/services/landing-pages',
-          preview: '/hero2.jpg',
-        },
-        {
-          label: 'Web Development',
-          href: '/en/services/web-development',
-          preview: '/hero1.jpg',
-        },
-      ]
-
+  const serviceItems: MenuItem[] = [
+    {
+      label: isPt ? 'Serviços' : 'Services',
+      href: `${homeHref}#services`,
+      preview: '/hero1.jpg',
+    },
+  ]
   const contentItems = isPt
     ? [
         {
@@ -232,7 +186,7 @@ export function Header({ locale, languageHrefs, variant = 'dark', compactLogo = 
         setPagesMenuOpen(false)
         setPreview(null)
       }}
-      className={isLight ? 'relative z-50 grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]' : 'relative z-50 flex items-center justify-between'}
+      className="relative z-50 grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]"
     >
       <Link
         href={homeHref}
@@ -249,12 +203,12 @@ export function Header({ locale, languageHrefs, variant = 'dark', compactLogo = 
         className="
           hidden
           items-center
-          gap-9
+          gap-6
           text-[14px]
           font-semibold
           tracking-[-0.025em]
           lg:flex
-          xl:gap-11
+          xl:gap-8
           xl:text-[15px]
         "
       >
@@ -330,7 +284,7 @@ export function Header({ locale, languageHrefs, variant = 'dark', compactLogo = 
         </Link>
       </nav>
 
-      <div className={isLight ? 'flex items-center gap-3 justify-self-end' : 'flex items-center gap-3'}>
+      <div className="flex items-center justify-self-end gap-3">
         <button
           ref={mobileMenuButtonRef}
           type="button"
@@ -416,49 +370,51 @@ export function Header({ locale, languageHrefs, variant = 'dark', compactLogo = 
             onMouseEnter={() => setPagesMenuOpen(true)}
             className="
               absolute
-              left-0
-              right-0
+              left-1/2
+              w-[40rem]
+              max-w-full
+              -translate-x-1/2
               top-[calc(100%+20px)]
               hidden
               overflow-hidden
-              rounded-[22px]
+              rounded-[18px]
               border border-white/10
               bg-[#070707]
-              p-8
+              p-6
               text-white
               shadow-2xl
               lg:block
             "
           >
-            <div className="relative grid grid-cols-12 gap-x-10">
+            <div className="relative grid grid-cols-3 gap-x-6">
 
-              <div className="col-span-3">
-                <p className="mb-6 text-[9px] font-bold uppercase tracking-[0.16em] text-white/40">
+              <div className="min-w-0">
+                <p className="mb-3 text-[9px] font-bold uppercase tracking-[0.16em] text-white/40">
                   {isPt ? 'Studio' : 'Studio'}
                 </p>
 
-                <div className="flex flex-col gap-4">
-                  {studioItems.map((item) => <MegaMenuLink key={item.href} item={item} active={preview === item.href} onActivate={() => setPreview(item.href)} onDeactivate={() => setPreview(null)} />)}
+                <div className="flex flex-col gap-1">
+                  {studioItems.map((item) => <MegaMenuLink key={item.href} item={item} onNavigate={() => { setPagesMenuOpen(false); setPreview(null) }} active={preview === item.href} onActivate={() => setPreview(item.href)} onDeactivate={() => setPreview(null)} />)}
                 </div>
               </div>
 
-              <div className="col-span-6">
-                <p className="mb-6 text-[9px] font-bold uppercase tracking-[0.16em] text-white/40">
+              <div className="min-w-0">
+                <p className="mb-3 text-[9px] font-bold uppercase tracking-[0.16em] text-white/40">
                   {isPt ? 'Serviços' : 'Services'}
                 </p>
 
-                <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                  {serviceItems.map((item) => <MegaMenuLink key={item.href} item={item} active={preview === item.href} onActivate={() => setPreview(item.href)} onDeactivate={() => setPreview(null)} />)}
+                <div className="flex flex-col gap-1">
+                  {serviceItems.map((item) => <MegaMenuLink key={item.href} item={item} onNavigate={() => { setPagesMenuOpen(false); setPreview(null) }} active={preview === item.href} onActivate={() => setPreview(item.href)} onDeactivate={() => setPreview(null)} />)}
                 </div>
               </div>
 
-              <div className="col-span-3">
-                <p className="mb-6 text-[9px] font-bold uppercase tracking-[0.16em] text-white/40">
+              <div className="min-w-0">
+                <p className="mb-3 text-[9px] font-bold uppercase tracking-[0.16em] text-white/40">
                   {isPt ? 'Conteúdo' : 'Content'}
                 </p>
 
-                <div className="flex flex-col gap-4">
-                  {contentItems.map((item) => <MegaMenuLink key={item.href} item={item} active={preview === item.href} onActivate={() => setPreview(item.href)} onDeactivate={() => setPreview(null)} />)}
+                <div className="flex flex-col gap-1">
+                  {contentItems.map((item) => <MegaMenuLink key={item.href} item={item} onNavigate={() => { setPagesMenuOpen(false); setPreview(null) }} active={preview === item.href} onActivate={() => setPreview(item.href)} onDeactivate={() => setPreview(null)} />)}
                 </div>
               </div>
 

@@ -73,5 +73,26 @@ html:has(.maintenance-page) {
 
   .rolling-text__face {
     transform: none;
+    translate: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .rolling-text__face {
+    transform: none !important;
+    translate: none !important;
+  }
+
+  .rolling-text__ghost {
+    display: none;
   }
 }

@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { useReducedMotion } from '@/lib/useReducedMotion'
 
 const SHOWCASE_IMAGES = [
   '/hero1.jpg',
@@ -11,12 +12,13 @@ const SHOWCASE_IMAGES = [
 ] as const
 
 export function ShowcaseMarquee() {
+  const reduceMotion = useReducedMotion()
   const duplicated = [...SHOWCASE_IMAGES, ...SHOWCASE_IMAGES, ...SHOWCASE_IMAGES]
 
   return (
     <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-70px' }} transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }} className="w-full overflow-hidden py-6 md:py-10">
       <motion.div
-        animate={{
+        animate={reduceMotion ? { x: 0 } : {
           x: ['0%', '-33.3333%'],
         }}
         transition={{
